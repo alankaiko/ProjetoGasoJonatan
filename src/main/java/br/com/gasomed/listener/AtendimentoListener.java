@@ -26,6 +26,7 @@ import br.com.gasomed.service.ConvenioService;
 import br.com.gasomed.service.HospitalService;
 import br.com.gasomed.service.MedicoService;
 import br.com.gasomed.util.MensagemPainelUtil;
+import br.com.gasomed.zrelatorio.GerandoRelatorio;
 
 public class AtendimentoListener implements ActionListener {
 	private AtendimentoDialog tela;
@@ -58,8 +59,9 @@ public class AtendimentoListener implements ActionListener {
 		AtendimentoService service = new AtendimentoService();
 
 		try {
-			service.Salvar(this.ReuneValorDosCampos());
+			Long valor = service.Salvar(this.ReuneValorDosCampos());
 			this.ZerarCampos();
+			this.CriarPDF(valor);
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Salvar Atendimento");
 		}
@@ -84,6 +86,7 @@ public class AtendimentoListener implements ActionListener {
 		atendimento.setO2sat(this.tela.getTO2sat().getText());
 		atendimento.setNa(this.tela.getTNa().getText());
 		atendimento.setK(this.tela.getTK().getText());
+		atendimento.setFile(atendimento.getNome() + "_" + atendimento.getData() + "_" + atendimento.getHora());
 		
 		return atendimento;
 	}
@@ -100,6 +103,23 @@ public class AtendimentoListener implements ActionListener {
 		this.tela.getTO2sat().setText("");
 		this.tela.getTNa().setText("");
 		this.tela.getTK().setText("");
+	}
+	
+	private void CriarPDF(Long valor) {
+		AtendimentoService service = new AtendimentoService();
+		Atendimento atendimento = service.BuscandoId(valor);
+		
+		try {
+			GerandoRelatorio relatorio = new GerandoRelatorio();
+			boolean confere = relatorio.CriarDocumento(atendimento);
+			
+			if(confere)
+				relatorio.CriarPdf(atendimento);
+		} catch (Exception e) {
+			e.printStackTrace();
+			MensagemPainelUtil.Erro("Erro");
+		}
+		
 	}
 
 	@SuppressWarnings("serial")

@@ -21,6 +21,14 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="src/main/resources/lib/curvesapi-1.04.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/poi-examples-3.17.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/poi-excelant-3.17.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/poi-ooxml-schemas-3.17.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/poi-scratchpad-3.17.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>

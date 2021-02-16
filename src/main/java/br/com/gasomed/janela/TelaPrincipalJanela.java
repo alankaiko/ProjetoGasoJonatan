@@ -63,7 +63,7 @@ public class TelaPrincipalJanela extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipalJanela.class.getResource("/imagens/icone.png")));
 		this.setTitle("GMeD");
 		this.setBounds(0, 0, 1135, 685);
-		this.setLocationRelativeTo(null);
+		//this.setLocationRelativeTo(null);
 		setResizable(false);
 	}
 	

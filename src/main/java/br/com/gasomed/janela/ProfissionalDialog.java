@@ -55,6 +55,7 @@ public class ProfissionalDialog extends JDialog {
 		painel.setLayout(null);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void MontarComponentes() {
 		TNome = new JTextField();
 		TNome.setDocument(new CampoMaiusculoUtil());

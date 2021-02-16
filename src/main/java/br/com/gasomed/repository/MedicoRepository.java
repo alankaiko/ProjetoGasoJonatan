@@ -180,4 +180,37 @@ public class MedicoRepository {
 
 		return medico;
 	}
+	
+	public boolean VerTabelaVazia() throws Exception {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT COUNT(id) FROM medico");
+
+		Connection con = ConexaoFactory.RetornaConexao();
+		PreparedStatement pre = con.prepareStatement(sql.toString());
+
+		ResultSet resultado = pre.executeQuery();
+
+		if(!resultado.next()) 
+			return false;
+		else
+			return true;		
+	}
+	
+	public List<String> ListarSomenteNomes() throws Exception {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT nome ");
+		sql.append("FROM medico ");
+
+		List<String> lista = new ArrayList<String>();
+		Connection con = ConexaoFactory.RetornaConexao();
+		PreparedStatement pre = con.prepareStatement(sql.toString());
+		ResultSet re = pre.executeQuery();
+
+		while (re.next()) {
+			String nome = re.getString("nome");
+			lista.add(nome);
+		}
+
+		return lista;
+	}
 }

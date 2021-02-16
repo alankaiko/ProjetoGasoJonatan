@@ -13,7 +13,12 @@ import br.com.gasomed.janela.AtendimentoDialog;
 import br.com.gasomed.janela.ConvenioDialog;
 import br.com.gasomed.janela.HospitalDialog;
 import br.com.gasomed.janela.ProfissionalDialog;
+import br.com.gasomed.janela.RelatorioGeralDialog;
+import br.com.gasomed.janela.RelatorioPacienteDialog;
 import br.com.gasomed.janela.TelaPrincipalJanela;
+import br.com.gasomed.service.ConvenioService;
+import br.com.gasomed.service.HospitalService;
+import br.com.gasomed.service.MedicoService;
 
 public class TelaPrincipalListener implements ActionListener {
 	private TelaPrincipalJanela tela;
@@ -79,11 +84,15 @@ public class TelaPrincipalListener implements ActionListener {
 	}
 	
 	private void AbreTelaGeralRelatorio(){
-		
+		RelatorioGeralDialog tela = new RelatorioGeralDialog();
+		tela.setLocationRelativeTo(this.tela.getPainelcentral());
+		tela.setVisible(true);
 	}
 	
 	private void AbreTelaPacienteRelatorio(){
-	
+		RelatorioPacienteDialog tela = new RelatorioPacienteDialog();
+		tela.setLocationRelativeTo(this.tela.getPainelcentral());
+		tela.setVisible(true);
 	}
 	
 	@SuppressWarnings("serial")
@@ -97,6 +106,30 @@ public class TelaPrincipalListener implements ActionListener {
             }  
         });  
     }  
+	
+	private void Teste() {
+		ConvenioService conv = new ConvenioService();
+		boolean con = conv.VerificaSeTemDados();
+		
+		String texto = "";
+		if(con) {
+			texto += "CONVÊNIOS";
+		}
+		
+		HospitalService hosp = new HospitalService();
+		boolean hos = hosp.VerificaSeTemDados();
+		
+		if(hos)
+			texto += "HOSPITAL";
+		
+		MedicoService medi = new MedicoService();
+		boolean med = medi.VerificaSeTemDados();
+		
+		if(med)
+			texto += "MÉDICO";
+		
+		
+	}
 }
 
 

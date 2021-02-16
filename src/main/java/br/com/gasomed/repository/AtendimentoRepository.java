@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import br.com.gasomed.util.ConexaoFactory;
 
 public class AtendimentoRepository {
 
-	public void Salvar(Atendimento atendimento) throws Exception {
+	public Long Salvar(Atendimento atendimento) throws Exception {
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO atendimento" );
 		sql.append("(nome, hospital, medico, convenio, leito, data, hora, ph, po, pco, hco, co2total, be, o2sat, na, k, file) ");
@@ -20,7 +21,7 @@ public class AtendimentoRepository {
 
 		Connection conexao = ConexaoFactory.RetornaConexao();
 
-		PreparedStatement prep = conexao.prepareStatement(sql.toString());
+		PreparedStatement prep = conexao.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, atendimento.getNome());
 		prep.setString(2, atendimento.getHospital());
 		prep.setString(3, atendimento.getMedico());
@@ -39,7 +40,15 @@ public class AtendimentoRepository {
 		prep.setString(16, atendimento.getK());
 		prep.setString(17, atendimento.getFile());
 		prep.execute();
+		
+		final ResultSet rs = prep.getGeneratedKeys();
+		Long valor = 0L;
+		if (rs.next()) {
+		    valor = rs.getLong(1);
+		}
 		conexao.close();
+		
+		return valor;
 	}
 
 	public void Excluir(Atendimento atendimento) throws Exception {
@@ -255,5 +264,104 @@ public class AtendimentoRepository {
 		}
 
 		return atendimento;
+	}
+	
+	public List<Atendimento> BuscarRelatorio(String nome, Date datainicial, Date datafinal) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora ");
+		sql.append("FROM atendimento ");
+		sql.append("WHERE (data BETWEEN ? AND ?) AND nome LIKE ? ");
+
+		List<Atendimento> lista = new ArrayList<Atendimento>();
+
+		Connection con = ConexaoFactory.RetornaConexao();
+		PreparedStatement pre = con.prepareStatement(sql.toString());
+		pre.setDate(1, datainicial);
+		pre.setDate(2, datafinal);
+		pre.setString(3, "%" + nome + "%");
+
+		ResultSet resultado = pre.executeQuery();
+
+		while(resultado.next()) {
+			Atendimento atendimento = new Atendimento();
+			atendimento.setId(resultado.getLong("id"));
+			atendimento.setNome(resultado.getString("nome"));
+			atendimento.setHospital(resultado.getString("hospital"));
+			atendimento.setMedico(resultado.getString("medico"));
+			atendimento.setConvenio(resultado.getString("convenio"));
+			atendimento.setLeito(resultado.getString("leito"));
+			atendimento.setData(resultado.getDate("data"));
+			atendimento.setHora(resultado.getTime("hora"));
+			lista.add(atendimento);
+		}
+
+		return lista;
+	}
+	
+	public List<String> ListarSomenteNomes() throws Exception {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT nome ");
+		sql.append("FROM atendimento ");
+
+		List<String> lista = new ArrayList<String>();
+		Connection con = ConexaoFactory.RetornaConexao();
+		PreparedStatement pre = con.prepareStatement(sql.toString());
+		ResultSet re = pre.executeQuery();
+
+		while (re.next()) {
+			String nome = re.getString("nome");
+			lista.add(nome);
+		}
+
+		return lista;
+	}
+	
+	public List<Atendimento> BuscarRelatorioGeral(String convenio, String hospital, String medico, Date datainicial, Date datafinal) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora ");
+		sql.append("FROM atendimento ");
+		sql.append("WHERE (data BETWEEN ? AND ?) ");
+		
+		if(convenio != "") {
+			sql.append(" AND convenio = ? ");
+			System.out.println("rodou convenio");
+		}
+		
+		if(hospital != "") {
+			sql.append(" AND hospital = ? ");
+			System.out.println("rodou hospital");
+		}
+		
+		if(medico != "") {
+			sql.append(" AND medico = ? ");
+			System.out.println("rodou medico");
+		}
+
+		List<Atendimento> lista = new ArrayList<Atendimento>();
+
+		Connection con = ConexaoFactory.RetornaConexao();
+		PreparedStatement pre = con.prepareStatement(sql.toString());
+		pre.setDate(1, datainicial);
+		pre.setDate(2, datafinal);
+		pre.setString(3, convenio);
+		pre.setString(4, hospital);
+		pre.setString(5, medico);
+
+		ResultSet resultado = pre.executeQuery();
+
+		while(resultado.next()) {
+			Atendimento atendimento = new Atendimento();
+			atendimento.setId(resultado.getLong("id"));
+			atendimento.setNome(resultado.getString("nome"));
+			atendimento.setHospital(resultado.getString("hospital"));
+			atendimento.setMedico(resultado.getString("medico"));
+			atendimento.setConvenio(resultado.getString("convenio"));
+			atendimento.setLeito(resultado.getString("leito"));
+			atendimento.setData(resultado.getDate("data"));
+			atendimento.setHora(resultado.getTime("hora"));
+			lista.add(atendimento);
+		}
+
+		return lista;
 	}
 }

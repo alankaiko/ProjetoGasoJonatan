@@ -81,4 +81,22 @@ public class MedicoService {
 			return null;
 		}
 	}
+	
+	public boolean VerificaSeTemDados() {
+		try {
+			return this.repositorio.VerTabelaVazia();
+		} catch (Exception e) {
+			MensagemPainelUtil.Erro("Erro ao Buscar por Nome!!" + e.getMessage());
+			return false;
+		}
+	}
+	
+	public List<String> ListarSoNomes(){
+		try {
+			return this.repositorio.ListarSomenteNomes();
+		} catch (Exception e) {
+			MensagemPainelUtil.Erro("Erro ao Listar Nomes!!" + e.getMessage());
+			return null;
+		}
+	}
 }
