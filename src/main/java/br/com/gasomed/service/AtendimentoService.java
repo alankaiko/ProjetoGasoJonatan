@@ -86,9 +86,18 @@ public class AtendimentoService {
 		}
 	}
 	
-	public List<Atendimento> ListarAtendGeral(String convenio, String hospital, String medico, Date datainicial, Date datafinal){
+	public List<Atendimento> ListarAtendGeral(String convenio, String hospital, String medico, String procedimento, Date datainicial, Date datafinal){
 		try {
-			return this.repositorio.BuscarRelatorioGeral(convenio, hospital, medico, datainicial, datafinal);
+			return this.repositorio.BuscarRelatorioGeral(convenio, hospital, medico, procedimento, datainicial, datafinal);
+		} catch (Exception e) {
+			MensagemPainelUtil.Erro("Erro ao Listar Nomes!!" + e.getMessage());
+			return null;
+		}
+	}
+	
+	public List<Atendimento> ListarConvenioMes(String convenio, String hospital, String procedimento, String medico, Date datainicial, Date datafinal){
+		try {
+			return this.repositorio.ListarConvenioMes(convenio, hospital, procedimento, medico, datainicial, datafinal);
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Listar Nomes!!" + e.getMessage());
 			return null;

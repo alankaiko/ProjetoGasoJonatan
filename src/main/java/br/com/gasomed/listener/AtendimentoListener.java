@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
@@ -21,15 +22,18 @@ import br.com.gasomed.modelo.Atendimento;
 import br.com.gasomed.modelo.Convenio;
 import br.com.gasomed.modelo.Hospital;
 import br.com.gasomed.modelo.Medico;
+import br.com.gasomed.modelo.Procedimento;
 import br.com.gasomed.service.AtendimentoService;
 import br.com.gasomed.service.ConvenioService;
 import br.com.gasomed.service.HospitalService;
 import br.com.gasomed.service.MedicoService;
+import br.com.gasomed.service.ProcedimentoService;
 import br.com.gasomed.util.MensagemPainelUtil;
-import br.com.gasomed.zrelatorio.GerandoRelatorio;
+import br.com.gasomed.zrelatorio.RelatorioAtendimento;
 
 public class AtendimentoListener implements ActionListener {
 	private AtendimentoDialog tela;
+	private Atendimento atendimento;
 
 	public AtendimentoListener(AtendimentoDialog tela) {
 		this.tela = tela;
@@ -39,6 +43,7 @@ public class AtendimentoListener implements ActionListener {
 		this.CarregarConvenios();
 		this.CarregarHospitais();
 		this.CarregarMedicos();
+		this.CarregarProcedimentos();
 	}
 
 	private void AdicionaListener() {
@@ -69,11 +74,12 @@ public class AtendimentoListener implements ActionListener {
 	}
 	
 	private Atendimento ReuneValorDosCampos() {
-		Atendimento atendimento = new Atendimento();
+		atendimento = new Atendimento();
 		atendimento.setNome(this.tela.getTNome().getText());
 		atendimento.setHospital((String) this.tela.getCombohospital().getSelectedItem());
 		atendimento.setMedico((String) this.tela.getCombomedico().getSelectedItem());
 		atendimento.setConvenio((String) this.tela.getComboconvenio().getSelectedItem());
+		atendimento.setProcedimento((String) this.tela.getComboprocedimento().getSelectedItem());
 		atendimento.setLeito(this.tela.getTLeito().getText());
 		atendimento.setData(new Date(System.currentTimeMillis()));
 		atendimento.setHora(new Time(System.currentTimeMillis()));
@@ -86,7 +92,7 @@ public class AtendimentoListener implements ActionListener {
 		atendimento.setO2sat(this.tela.getTO2sat().getText());
 		atendimento.setNa(this.tela.getTNa().getText());
 		atendimento.setK(this.tela.getTK().getText());
-		atendimento.setFile(atendimento.getNome() + "_" + atendimento.getData() + "_" + atendimento.getHora());
+		atendimento.setFile(atendimento.getNome() + "_" + Calendar.getInstance().getTimeInMillis() + ".pdf");
 		
 		return atendimento;
 	}
@@ -105,21 +111,13 @@ public class AtendimentoListener implements ActionListener {
 		this.tela.getTK().setText("");
 	}
 	
-	private void CriarPDF(Long valor) {
-		AtendimentoService service = new AtendimentoService();
-		Atendimento atendimento = service.BuscandoId(valor);
-		
+	private void CriarPDF(Long valor) {		
 		try {
-			GerandoRelatorio relatorio = new GerandoRelatorio();
-			boolean confere = relatorio.CriarDocumento(atendimento);
-			
-			if(confere)
-				relatorio.CriarPdf(atendimento);
+			RelatorioAtendimento relatorio = new RelatorioAtendimento();
+			relatorio.RelatorioPorAtendimento(valor, this.atendimento.getFile());
 		} catch (Exception e) {
-			e.printStackTrace();
-			MensagemPainelUtil.Erro("Erro");
+			MensagemPainelUtil.Erro("Erro ao Gerar Relatório Atendimento!!");
 		}
-		
 	}
 
 	@SuppressWarnings("serial")
@@ -189,4 +187,14 @@ public class AtendimentoListener implements ActionListener {
 		this.tela.getCombohospital().setModel(new DefaultComboBoxModel(new Vector(lista)));
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void CarregarProcedimentos() {
+		ProcedimentoService service = new ProcedimentoService();
+		List<String> lista = new ArrayList<String>();
+		
+		for(Procedimento procedimento : service.ListandoProcedimento()) {
+			lista.add(procedimento.getNome());
+		}
+		this.tela.getComboprocedimento().setModel(new DefaultComboBoxModel(new Vector(lista)));
+	}
 }

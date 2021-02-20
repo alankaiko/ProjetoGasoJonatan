@@ -12,6 +12,7 @@ import javax.swing.KeyStroke;
 import br.com.gasomed.janela.AtendimentoDialog;
 import br.com.gasomed.janela.ConvenioDialog;
 import br.com.gasomed.janela.HospitalDialog;
+import br.com.gasomed.janela.ProcedimentoDialog;
 import br.com.gasomed.janela.ProfissionalDialog;
 import br.com.gasomed.janela.RelatorioGeralDialog;
 import br.com.gasomed.janela.RelatorioPacienteDialog;
@@ -33,6 +34,7 @@ public class TelaPrincipalListener implements ActionListener {
 		this.tela.getConvenioitem().addActionListener(this);
 		this.tela.getHopitalitem().addActionListener(this);
 		this.tela.getProfissionalitem().addActionListener(this);	
+		this.tela.getProcedimentoitem().addActionListener(this);
 		
 		this.tela.getGeralrelatorio().addActionListener(this);
 		this.tela.getPacienterelatorio().addActionListener(this);
@@ -51,6 +53,9 @@ public class TelaPrincipalListener implements ActionListener {
 		
 		if(evento.getSource().equals(this.tela.getHopitalitem()))
 			this.AbreTelaHospital();
+		
+		if(evento.getSource().equals(this.tela.getProcedimentoitem()))
+			this.AbreTelaProcedimento();
 		
 		if(evento.getSource().equals(this.tela.getGeralrelatorio()))
 			this.AbreTelaGeralRelatorio();
@@ -73,6 +78,12 @@ public class TelaPrincipalListener implements ActionListener {
 	
 	private void AbreTelaProfissional(){
 		ProfissionalDialog tela = new ProfissionalDialog();
+		tela.setLocationRelativeTo(this.tela.getPainelcentral());
+		tela.setVisible(true);
+	}
+	
+	private void AbreTelaProcedimento(){
+		ProcedimentoDialog tela = new ProcedimentoDialog();
 		tela.setLocationRelativeTo(this.tela.getPainelcentral());
 		tela.setVisible(true);
 	}

@@ -16,8 +16,8 @@ public class AtendimentoRepository {
 	public Long Salvar(Atendimento atendimento) throws Exception {
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO atendimento" );
-		sql.append("(nome, hospital, medico, convenio, leito, data, hora, ph, po, pco, hco, co2total, be, o2sat, na, k, file) ");
-		sql.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+		sql.append("(nome, hospital, medico, convenio, leito, data, hora, ph, po, pco, hco, co2total, be, o2sat, na, k, file, procedimento) ");
+		sql.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )");
 
 		Connection conexao = ConexaoFactory.RetornaConexao();
 
@@ -39,6 +39,7 @@ public class AtendimentoRepository {
 		prep.setString(15, atendimento.getNa());
 		prep.setString(16, atendimento.getK());
 		prep.setString(17, atendimento.getFile());
+		prep.setString(18, atendimento.getProcedimento());
 		prep.execute();
 		
 		final ResultSet rs = prep.getGeneratedKeys();
@@ -83,6 +84,7 @@ public class AtendimentoRepository {
 		sql.append("SET na = ? ");
 		sql.append("SET k = ? ");
 		sql.append("SET file = ? ");
+		sql.append("SET procedimento = ? ");
 		sql.append("WHERE id = ?");
 
 		Connection con = ConexaoFactory.RetornaConexao();
@@ -104,6 +106,7 @@ public class AtendimentoRepository {
 		pre.setString(15, atendimento.getNa());
 		pre.setString(16, atendimento.getK());
 		pre.setString(17, atendimento.getFile());
+		pre.setString(18, atendimento.getProcedimento());
 		
 		pre.setLong(18, atendimento.getId());
 		pre.executeUpdate();
@@ -112,7 +115,7 @@ public class AtendimentoRepository {
 	
 	public Atendimento BuscarPorId(Long id) throws Exception {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora, ph, po, pco, hco, co2total, be, o2sat, na, k, file ");
+		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora, ph, po, pco, hco, co2total, be, o2sat, na, k, file, procedimento ");
 		sql.append("FROM atendimento ");
 		sql.append("WHERE id = ?");
 
@@ -144,6 +147,7 @@ public class AtendimentoRepository {
 			atendimento.setNa(resultado.getString("na"));
 			atendimento.setK(resultado.getString("k"));
 			atendimento.setFile(resultado.getString("file"));
+			atendimento.setProcedimento(resultado.getString("procedimento"));
 		}
 
 		return atendimento;
@@ -151,7 +155,7 @@ public class AtendimentoRepository {
 	
 	public List<Atendimento> Listar() throws Exception {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora, ph, po, pco, hco, co2total, be, o2sat, na, k, file ");
+		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora, ph, po, pco, hco, co2total, be, o2sat, na, k, file, procedimento ");
 		sql.append("FROM atendimento ");
 
 		List<Atendimento> lista = new ArrayList<Atendimento>();
@@ -180,6 +184,7 @@ public class AtendimentoRepository {
 			atendimento.setNa(resultado.getString("na"));
 			atendimento.setK(resultado.getString("k"));
 			atendimento.setFile(resultado.getString("file"));
+			atendimento.setProcedimento(resultado.getString("procedimento"));
 			lista.add(atendimento);
 		}
 
@@ -221,6 +226,7 @@ public class AtendimentoRepository {
 			atendimento.setNa(resultado.getString("na"));
 			atendimento.setK(resultado.getString("k"));
 			atendimento.setFile(resultado.getString("file"));
+			atendimento.setProcedimento(resultado.getString("procedimento"));
 			lista.add(atendimento);
 		}
 
@@ -261,6 +267,7 @@ public class AtendimentoRepository {
 			atendimento.setNa(resultado.getString("na"));
 			atendimento.setK(resultado.getString("k"));
 			atendimento.setFile(resultado.getString("file"));
+			atendimento.setProcedimento(resultado.getString("procedimento"));
 		}
 
 		return atendimento;
@@ -268,7 +275,7 @@ public class AtendimentoRepository {
 	
 	public List<Atendimento> BuscarRelatorio(String nome, Date datainicial, Date datafinal) throws Exception {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora ");
+		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora, procedimento ");
 		sql.append("FROM atendimento ");
 		sql.append("WHERE (data BETWEEN ? AND ?) AND nome LIKE ? ");
 
@@ -292,6 +299,7 @@ public class AtendimentoRepository {
 			atendimento.setLeito(resultado.getString("leito"));
 			atendimento.setData(resultado.getDate("data"));
 			atendimento.setHora(resultado.getTime("hora"));
+			atendimento.setProcedimento(resultado.getString("procedimento"));
 			lista.add(atendimento);
 		}
 
@@ -316,36 +324,50 @@ public class AtendimentoRepository {
 		return lista;
 	}
 	
-	public List<Atendimento> BuscarRelatorioGeral(String convenio, String hospital, String medico, Date datainicial, Date datafinal) throws Exception {
+	public List<Atendimento> BuscarRelatorioGeral(String convenio, String hospital, String medico, String procedimento, Date datainicial, Date datafinal) throws Exception {
+		int cont = 3;
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora ");
+		sql.append("SELECT id, nome, hospital, medico, convenio, procedimento, leito, data, hora ");
 		sql.append("FROM atendimento ");
 		sql.append("WHERE (data BETWEEN ? AND ?) ");
 		
-		if(convenio != "") {
-			sql.append(" AND convenio = ? ");
-			System.out.println("rodou convenio");
-		}
+		if(!convenio.equals("")) 
+			sql.append("AND convenio = ? ");
+
+		if(!hospital.equals("")) 
+			sql.append("AND hospital = ? ");
 		
-		if(hospital != "") {
-			sql.append(" AND hospital = ? ");
-			System.out.println("rodou hospital");
-		}
+		if(!medico.equals("")) 
+			sql.append("AND medico = ? ");
 		
-		if(medico != "") {
-			sql.append(" AND medico = ? ");
-			System.out.println("rodou medico");
-		}
+		if(!procedimento.equals("")) 
+			sql.append("AND procedimento = ? ");
 
 		List<Atendimento> lista = new ArrayList<Atendimento>();
-
 		Connection con = ConexaoFactory.RetornaConexao();
 		PreparedStatement pre = con.prepareStatement(sql.toString());
 		pre.setDate(1, datainicial);
 		pre.setDate(2, datafinal);
-		pre.setString(3, convenio);
-		pre.setString(4, hospital);
-		pre.setString(5, medico);
+		
+		if(!convenio.equals("")) {
+			pre.setString(cont, convenio);
+			cont++;
+		}
+		
+		if(!hospital.equals("")) {
+			pre.setString(cont, hospital);
+			cont++;
+		}
+		
+		if(!medico.equals("")) {
+			pre.setString(cont, medico);
+			cont++;
+		}
+		
+		if(!procedimento.equals("")) {
+			pre.setString(cont, procedimento);
+			cont++;
+		}
 
 		ResultSet resultado = pre.executeQuery();
 
@@ -356,9 +378,76 @@ public class AtendimentoRepository {
 			atendimento.setHospital(resultado.getString("hospital"));
 			atendimento.setMedico(resultado.getString("medico"));
 			atendimento.setConvenio(resultado.getString("convenio"));
+			atendimento.setProcedimento(resultado.getString("procedimento"));
 			atendimento.setLeito(resultado.getString("leito"));
 			atendimento.setData(resultado.getDate("data"));
 			atendimento.setHora(resultado.getTime("hora"));
+			lista.add(atendimento);
+		}
+
+		return lista;
+	}
+	
+	public List<Atendimento> ListarConvenioMes(String convenio, String hospital,String procedimento, String medico, Date datainicial, Date datafinal) throws Exception {
+		int cont = 3;
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT id, nome, procedimento, data, hospital, convenio, ");
+		sql.append("COUNT(Nome) AS quantidade ");
+		sql.append("FROM atendimento ");
+		sql.append("WHERE (data BETWEEN ? AND ?) ");
+		
+		if(!convenio.equals("")) 
+			sql.append("AND convenio = ? ");
+
+		if(!hospital.equals("")) 
+			sql.append("AND hospital = ? ");
+		
+		if(!procedimento.equals("")) 
+			sql.append("AND procedimento = ? ");
+
+		if(!medico.equals("")) 
+			sql.append("AND medico = ? ");
+		
+		sql.append("GROUP BY nome ORDER BY nome ");
+
+		List<Atendimento> lista = new ArrayList<Atendimento>();
+	
+		Connection con = ConexaoFactory.RetornaConexao();
+		PreparedStatement pre = con.prepareStatement(sql.toString());
+		pre.setDate(1, datainicial);
+		pre.setDate(2, datafinal);
+
+		if(!convenio.equals("")) {
+			pre.setString(cont, convenio);
+			cont++;
+		}
+		
+		if(!hospital.equals("")) {
+			pre.setString(cont, hospital);
+			cont++;
+		}
+		
+		if(!medico.equals("")) {
+			pre.setString(cont, medico);
+			cont++;
+		}
+		
+		if(!hospital.equals("")) {
+			pre.setString(cont, hospital);
+			cont++;
+		}
+		
+		ResultSet resultado = pre.executeQuery();
+
+		while(resultado.next()) {
+			Atendimento atendimento = new Atendimento();
+			atendimento.setId(resultado.getLong("id"));
+			atendimento.setNome(resultado.getString("nome"));
+			atendimento.setProcedimento(resultado.getString("procedimento"));
+			atendimento.setConvenio(resultado.getString("convenio"));
+			atendimento.setHospital(resultado.getString("hospital"));
+			atendimento.setData(resultado.getDate("data"));
+		
 			lista.add(atendimento);
 		}
 

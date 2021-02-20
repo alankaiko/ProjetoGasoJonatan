@@ -19,12 +19,15 @@ import javax.swing.ListSelectionModel;
 
 import br.com.gasomed.janela.RelatorioGeralDialog;
 import br.com.gasomed.modelo.Atendimento;
+import br.com.gasomed.repository.filtro.AtendimentoFiltro;
 import br.com.gasomed.service.AtendimentoService;
 import br.com.gasomed.service.ConvenioService;
 import br.com.gasomed.service.HospitalService;
 import br.com.gasomed.service.MedicoService;
+import br.com.gasomed.service.ProcedimentoService;
 import br.com.gasomed.tabela.Atendimentotabela;
 import br.com.gasomed.util.MensagemPainelUtil;
+import br.com.gasomed.zrelatorio.RelatorioConvenioMes;
 
 public class RelatorioGeralListener implements ActionListener, ItemListener {
 	private RelatorioGeralDialog tela;
@@ -36,6 +39,7 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 		this.BuscarConvenio();
 		this.BuscarHospital();
 		this.BuscarMedico();
+		this.BuscarProcedimento();
 		this.UsandoTAB();
 		this.TeclaEsc();
 	}
@@ -48,6 +52,7 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 		this.tela.getCheckconvenio().addItemListener(this);
 		this.tela.getCheckhospital().addItemListener(this);
 		this.tela.getCheckmedico().addItemListener(this);
+		this.tela.getCheckprocedimento().addItemListener(this);
 	}
 
 	private void TabelaDeAtendimentos(List<Atendimento> lista) {
@@ -69,21 +74,23 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 			this.tela.dispose();
 
 		if (evento.getSource().equals(this.tela.getBAbrir()))
-			this.GerarRelatorio();
+			this.CriarPDF();
 		
 		if (evento.getSource().equals(this.tela.getBGerar()))
-			this.GerarRelatorio();
+			this.BuscarDados();
 	}
 
-	private void GerarRelatorio() {
+	private void BuscarDados() {
 		Date datainicial = null;
 		Date datafinal = null;
-		String convenio = null;
-		String hospital = null;
-		String medico = null;
+		String convenio = "";
+		String hospital = "";
+		String medico = "";
+		String procedimento = "";
 		try {
 			datainicial = new Date(this.tela.getDatainicial().getDate().getTime());
 			datafinal = new Date(this.tela.getDatafinal().getDate().getTime());
+			
 			if(this.tela.getCheckconvenio().isSelected()) 
 				convenio = this.tela.getComboconvenio().getSelectedItem() + "";
 			
@@ -92,12 +99,41 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 			
 			if(this.tela.getCheckmedico().isSelected())
 				medico = this.tela.getCombomedico().getSelectedItem() + "";
+			
+			if(this.tela.getCheckprocedimento().isSelected())
+				medico = this.tela.getComboprocedimento().getSelectedItem() + "";
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Verificar Datas estão selecionadas");
 		}
 		
 		AtendimentoService service = new AtendimentoService();
-		this.TabelaDeAtendimentos(service.ListarAtendGeral(convenio, hospital, medico, datainicial, datafinal));
+		this.TabelaDeAtendimentos(service.ListarAtendGeral(convenio, hospital, medico, procedimento, datainicial, datafinal));
+	}
+	
+	private void CriarPDF() {
+		AtendimentoFiltro filtro = new AtendimentoFiltro();
+		
+		try {
+			filtro.setDatainicial(new java.sql.Date(this.tela.getDatainicial().getDate().getTime()));
+			filtro.setDatafinal(new java.sql.Date(this.tela.getDatafinal().getDate().getTime()));
+			
+			if(this.tela.getCheckconvenio().isSelected()) 
+				filtro.setConvenio(this.tela.getComboconvenio().getSelectedItem() + "");
+			
+			if(this.tela.getCheckhospital().isSelected())
+				filtro.setHospital(this.tela.getCombohospital().getSelectedItem() + "");
+			
+			if(this.tela.getCheckmedico().isSelected())
+				filtro.setMedico(this.tela.getCombomedico().getSelectedItem() + "");
+			
+			if(this.tela.getCheckprocedimento().isSelected())
+				filtro.setProcedimento(this.tela.getComboprocedimento().getSelectedItem() + "");
+			
+			RelatorioConvenioMes rel = new RelatorioConvenioMes();
+			rel.RelatorioPorPessoa(filtro);
+		} catch (Exception e) {
+			MensagemPainelUtil.Erro("Verificar Datas estão selecionadas");
+		}		
 	}
 
 	@SuppressWarnings("serial")
@@ -156,6 +192,11 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 		else
 			this.tela.getCombomedico().setEnabled(false);
 		
+		if(this.tela.getCheckprocedimento().isSelected())
+			this.tela.getComboprocedimento().setEnabled(true);
+		else
+			this.tela.getComboprocedimento().setEnabled(false);
+		
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -177,5 +218,12 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 		MedicoService service = new MedicoService();
 		List<String> lista = service.ListarSoNomes();
 		this.tela.getCombomedico().setModel(new DefaultComboBoxModel(new Vector(lista)));
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void BuscarProcedimento() {
+		ProcedimentoService service = new ProcedimentoService();
+		List<String> lista = service.ListarSoNomes();
+		this.tela.getComboprocedimento().setModel(new DefaultComboBoxModel(new Vector(lista)));
 	}
 }

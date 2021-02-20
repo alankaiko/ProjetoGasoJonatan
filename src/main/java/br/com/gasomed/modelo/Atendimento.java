@@ -12,6 +12,7 @@ public class Atendimento implements Serializable {
 	private String hospital;
 	private String medico;
 	private String convenio;
+	private String procedimento;
 	private String leito;
 	private Date data;
 	private Time hora;
@@ -64,6 +65,14 @@ public class Atendimento implements Serializable {
 
 	public void setConvenio(String convenio) {
 		this.convenio = convenio;
+	}
+	
+	public String getProcedimento() {
+		return procedimento;
+	}
+	
+	public void setProcedimento(String procedimento) {
+		this.procedimento = procedimento;
 	}
 
 	public String getLeito() {
@@ -198,8 +207,10 @@ public class Atendimento implements Serializable {
 	@Override
 	public String toString() {
 		return "Atendimento [id=" + id + ", nome=" + nome + ", hospital=" + hospital + ", medico=" + medico
-				+ ", convenio=" + convenio + ", leito=" + leito + ", data=" + data + ", hora=" + hora + ", file=" + file
-				+ "]";
+				+ ", convenio=" + convenio + ", procedimento=" + procedimento + ", leito=" + leito + ", data=" + data
+				+ ", hora=" + hora + ", ph=" + ph + ", po=" + po + ", pco=" + pco + ", hco=" + hco + ", co2total="
+				+ co2total + ", be=" + be + ", o2sat=" + o2sat + ", na=" + na + ", k=" + k + ", file=" + file + "]";
 	}
 
+	
 }

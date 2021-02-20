@@ -14,15 +14,14 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.gasomed.listener.AtendimentoListener;
 import br.com.gasomed.util.CampoMaiusculoUtil;
-import javax.swing.JSeparator;
 
 public class AtendimentoDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private final JPanel painel = new JPanel();
-	private JLabel LNome, LHospital, LLeito, LConvenio, LMedico, LPh, LHco2, LO2sat, LPo2, LCo2, LNa, Lpco2, LBe, LK;
+	private JLabel LNome, LHospital, LLeito, LConvenio, LMedico, LPh, LHco2, LO2sat, LPo2, LCo2, LNa, Lpco2, LBe, LK, LProcedimento;
 	private JButton BGravar, BSair;
-	private JComboBox<String> combohospital, combomedico, comboconvenio;
+	private JComboBox<String> combohospital, combomedico, comboconvenio, comboprocedimento;
 	private JTextField TNome, TLeito, TPh, Thco2, TO2sat, TNa, TCo2, TPo2, TK, TBe, TPco2;
 	
 	@SuppressWarnings("unused")
@@ -49,7 +48,7 @@ public class AtendimentoDialog extends JDialog {
 	private void MontarComponentes() {
 		TNome = new JTextField();
 		TNome.setDocument(new CampoMaiusculoUtil());
-		TNome.setBounds(80, 10, 559, 23);
+		TNome.setBounds(80, 10, 550, 23);
 		painel.add(TNome);
 		TNome.setColumns(10);
 		
@@ -68,7 +67,7 @@ public class AtendimentoDialog extends JDialog {
 		TLeito = new JTextField();
 		TLeito.setDocument(new CampoMaiusculoUtil());
 		TLeito.setColumns(10);
-		TLeito.setBounds(80, 70, 230, 23);
+		TLeito.setBounds(80, 70, 200, 23);
 		painel.add(TLeito);
 		
 		LLeito = new JLabel("Leito:");
@@ -78,21 +77,26 @@ public class AtendimentoDialog extends JDialog {
 		painel.add(LLeito);
 		
 		combohospital = new JComboBox<String>();
-		combohospital.setBounds(80, 40, 558, 23);
+		combohospital.setBounds(80, 40, 550, 23);
 		painel.add(combohospital);
 		
 		LConvenio = new JLabel("Convênio:");
+		LConvenio.setHorizontalAlignment(SwingConstants.RIGHT);
 		LConvenio.setFont(new Font("Dialog", Font.BOLD, 13));
-		LConvenio.setBounds(320, 75, 70, 14);
+		LConvenio.setBounds(290, 75, 95, 14);
 		painel.add(LConvenio);
 		 
 		combomedico = new JComboBox<String>();
-		combomedico.setBounds(80, 114, 558, 23);
+		combomedico.setBounds(80, 114, 200, 23);
 		painel.add(combomedico);
 		
 		comboconvenio = new JComboBox<String>();
-		comboconvenio.setBounds(394, 70, 244, 23);
+		comboconvenio.setBounds(395, 70, 235, 23);
 		painel.add(comboconvenio);
+		
+		comboprocedimento = new JComboBox<String>();
+		comboprocedimento.setBounds(395, 114, 235, 23);
+		painel.add(comboprocedimento);
 		
 		LMedico = new JLabel("Médico:");
 		LMedico.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -139,90 +143,92 @@ public class AtendimentoDialog extends JDialog {
 		TNa = new JTextField();
 		TNa.setDocument(new CampoMaiusculoUtil());
 		TNa.setColumns(10);
-		TNa.setBounds(300, 208, 140, 23);
+		TNa.setBounds(275, 208, 140, 23);
 		painel.add(TNa);
 		
 		TCo2 = new JTextField();
 		TCo2.setDocument(new CampoMaiusculoUtil());
 		TCo2.setColumns(10);
-		TCo2.setBounds(300, 178, 140, 23);
+		TCo2.setBounds(275, 178, 140, 23);
 		painel.add(TCo2);
 		
 		TPo2 = new JTextField();
 		TPo2.setDocument(new CampoMaiusculoUtil());
 		TPo2.setColumns(10);
-		TPo2.setBounds(300, 148, 140, 23);
+		TPo2.setBounds(275, 148, 140, 23);
 		painel.add(TPo2);
 		
 		LPo2 = new JLabel("PO2:");
 		LPo2.setHorizontalAlignment(SwingConstants.RIGHT);
 		LPo2.setFont(new Font("Dialog", Font.BOLD, 13));
-		LPo2.setBounds(230, 153, 60, 14);
+		LPo2.setBounds(230, 153, 39, 14);
 		painel.add(LPo2);
 		
 		LCo2 = new JLabel("CO2:");
 		LCo2.setHorizontalAlignment(SwingConstants.RIGHT);
 		LCo2.setFont(new Font("Dialog", Font.BOLD, 13));
-		LCo2.setBounds(230, 183, 60, 14);
+		LCo2.setBounds(230, 183, 39, 14);
 		painel.add(LCo2);
 		
 		LNa = new JLabel("NA:");
 		LNa.setHorizontalAlignment(SwingConstants.RIGHT);
 		LNa.setFont(new Font("Dialog", Font.BOLD, 13));
-		LNa.setBounds(230, 213, 60, 14);
+		LNa.setBounds(230, 213, 39, 14);
 		painel.add(LNa);
 		
 		TK = new JTextField();
 		TK.setDocument(new CampoMaiusculoUtil());
 		TK.setColumns(10);
-		TK.setBounds(499, 208, 139, 23);
+		TK.setBounds(490, 208, 140, 23);
 		painel.add(TK);
 		
 		TBe = new JTextField();
 		TBe.setDocument(new CampoMaiusculoUtil());
 		TBe.setColumns(10);
-		TBe.setBounds(499, 178, 139, 23);
+		TBe.setBounds(490, 178, 140, 23);
 		painel.add(TBe);
 		
 		TPco2 = new JTextField();
 		TPco2.setDocument(new CampoMaiusculoUtil());
 		TPco2.setColumns(10);
-		TPco2.setBounds(499, 148, 139, 23);
+		TPco2.setBounds(490, 148, 140, 23);
 		painel.add(TPco2);
 		
 		Lpco2 = new JLabel("PCO2:");
 		Lpco2.setHorizontalAlignment(SwingConstants.RIGHT);
 		Lpco2.setFont(new Font("Dialog", Font.BOLD, 13));
-		Lpco2.setBounds(443, 153, 46, 14);
+		Lpco2.setBounds(430, 153, 50, 14);
 		painel.add(Lpco2);
 		
 		LBe = new JLabel("BE:");
 		LBe.setHorizontalAlignment(SwingConstants.RIGHT);
 		LBe.setFont(new Font("Dialog", Font.BOLD, 13));
-		LBe.setBounds(443, 183, 46, 14);
+		LBe.setBounds(430, 183, 50, 14);
 		painel.add(LBe);
 		
 		LK = new JLabel("K:");
 		LK.setHorizontalAlignment(SwingConstants.RIGHT);
 		LK.setFont(new Font("Dialog", Font.BOLD, 13));
-		LK.setBounds(450, 213, 39, 14);
+		LK.setBounds(430, 213, 50, 14);
 		painel.add(LK);
 		
 		BGravar = new JButton();
 		BGravar.setText("GRAVAR");
 		BGravar.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		BGravar.setBounds(563, 248, 75, 22);
+		BGravar.setBounds(555, 248, 75, 22);
 		painel.add(BGravar);
 		
 		BSair = new JButton();
 		BSair.setText("SAIR");
 		BSair.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		BSair.setBounds(479, 248, 75, 22);
+		BSair.setBounds(471, 248, 75, 22);
 		painel.add(BSair);
 		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 110, 634, 2);
-		painel.add(separator);
+		LProcedimento = new JLabel("Procedimento:");
+		LProcedimento.setHorizontalAlignment(SwingConstants.RIGHT);
+		LProcedimento.setFont(new Font("Dialog", Font.BOLD, 13));
+		LProcedimento.setBounds(290, 120, 95, 14);
+		painel.add(LProcedimento);
 	}
 
 	public JButton getBGravar() {
@@ -264,6 +270,15 @@ public class AtendimentoDialog extends JDialog {
 	public void setComboconvenio(JComboBox<String> comboconvenio) {
 		this.comboconvenio = comboconvenio;
 	}
+	
+	public JComboBox<String> getComboprocedimento() {
+		return comboprocedimento;
+	}
+	
+	public void setComboprocedimento(JComboBox<String> comboprocedimento) {
+		this.comboprocedimento = comboprocedimento;
+	}
+	
 
 	public JTextField getTNome() {
 		return TNome;
