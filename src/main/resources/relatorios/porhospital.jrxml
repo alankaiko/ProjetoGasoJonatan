@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="porhospital" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aade418f-b514-421e-8f87-23b9b02ee0d3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Alan\\Desktop\\refazer\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataini" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datafini" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="hosp" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="conv" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="procedim" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="medic" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     atendimento.`id` AS id,
+     atendimento.`nome` AS nome,
+     atendimento.`hospital` AS hospital,
+     atendimento.`convenio` AS convenio,
+     atendimento.`medico` AS medico,
+     atendimento.`data` AS data,
+     atendimento.`procedimento` AS procedimento
+FROM
+     `atendimento` atendimento
+WHERE
+     (data BETWEEN $P{dataini} AND $P{datafini})
+ AND (convenio LIKE '%$P!{conv}%')
+ AND (hospital LIKE '%$P!{hosp}%')
+ AND (medico LIKE '%$P!{medic}%')
+ AND (procedimento LIKE '%$P!{procedim}%')
+GROUP BY
+     hospital, convenio, procedimento;]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hospital" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="convenio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="medico" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="procedimento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="50">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="410" y="0" width="60" height="20" uuid="6cd489a3-8d9c-45dd-b1ea-152e40d202a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{dataini}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="495" y="0" width="60" height="20" uuid="1ff3701a-77c0-4948-b5fa-dae67477772b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{datafini}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="470" y="0" width="25" height="20" uuid="50b27040-ece7-4dea-a054-8f79edadd3f5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ATÉ]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="267" height="20" uuid="51dea093-5718-4a44-88ef-3202a22bbedf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hospital}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="20" width="555" height="20" uuid="45e17194-72d5-4d1d-9e82-42b456146c6d"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="conv">
+					<subreportParameterExpression><![CDATA[$F{convenio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dataini">
+					<subreportParameterExpression><![CDATA[$P{dataini}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="datafini">
+					<subreportParameterExpression><![CDATA[$P{datafini}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="procedim">
+					<subreportParameterExpression><![CDATA[$F{procedimento}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="medic">
+					<subreportParameterExpression><![CDATA[$F{medico}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="hosp">
+					<subreportParameterExpression><![CDATA[$F{hospital}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "porconvenio.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

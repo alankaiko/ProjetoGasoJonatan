@@ -19,6 +19,7 @@ import br.com.gasomed.listener.ProfissionalListener;
 import br.com.gasomed.modelo.UF;
 import br.com.gasomed.util.CampoMaiusculoUtil;
 import br.com.gasomed.util.ListasUtil;
+import java.awt.Color;
 
 public class ProfissionalDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -113,6 +114,7 @@ public class ProfissionalDialog extends JDialog {
 		painel.add(LEstado);
 		
 		comboestado = new JComboBox<UF>();
+		comboestado.setBackground(Color.WHITE);
 		comboestado.setModel(new DefaultComboBoxModel(new Vector(ListasUtil.EstadosAbrev())));
 		comboestado.setBounds(308, 40, 55, 23);
 		painel.add(comboestado);

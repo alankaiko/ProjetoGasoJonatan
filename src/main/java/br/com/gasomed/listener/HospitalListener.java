@@ -61,11 +61,13 @@ public class HospitalListener implements ActionListener {
 		if (evento.getSource().equals(this.tela.getBGravar()) && this.ValidandoField())
 			this.AdicionarValor();
 		
-		if (evento.getSource().equals(this.tela.getBEditar()))
+		else if (evento.getSource().equals(this.tela.getBEditar()))
 			this.EditarValor(this.SelecionaLinha());
 		
-		if (evento.getSource().equals(this.tela.getBExcluir()))
+		else if (evento.getSource().equals(this.tela.getBExcluir()))
 			this.ExcluirValor(this.SelecionaLinha());
+		else
+			MensagemPainelUtil.Erro("Preencha os campos");
 		
 		this.TabelaDeHospitais();
 	}

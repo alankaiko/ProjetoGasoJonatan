@@ -58,6 +58,8 @@ public class AtendimentoListener implements ActionListener {
 
 		if (evento.getSource().equals(this.tela.getBGravar()) && this.ValidandoField())
 			this.AdicionarValor();
+		else
+			MensagemPainelUtil.Erro("Preencha todos os campos!!");
 	}
 	
 	private void AdicionarValor() {
@@ -151,7 +153,16 @@ public class AtendimentoListener implements ActionListener {
 	}
 	
 	private boolean ValidandoField(){
-		return !this.tela.getTNome().getText().isEmpty();
+		return !this.tela.getTNome().getText().isEmpty()
+				&& !this.tela.getTPh().getText().isEmpty()
+				&& !this.tela.getThco2().getText().isEmpty()
+				&& !this.tela.getTO2sat().getText().isEmpty()
+				&& !this.tela.getTPo2().getText().isEmpty()
+				&& !this.tela.getTCo2().getText().isEmpty()
+				&& !this.tela.getTNa().getText().isEmpty()
+				&& !this.tela.getTPco2().getText().isEmpty()
+				&& !this.tela.getTBe().getText().isEmpty()
+				&& !this.tela.getTK().getText().isEmpty();
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

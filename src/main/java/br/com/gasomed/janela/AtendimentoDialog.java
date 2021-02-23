@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.gasomed.listener.AtendimentoListener;
 import br.com.gasomed.util.CampoMaiusculoUtil;
+import java.awt.Color;
 
 public class AtendimentoDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -77,6 +78,7 @@ public class AtendimentoDialog extends JDialog {
 		painel.add(LLeito);
 		
 		combohospital = new JComboBox<String>();
+		combohospital.setBackground(Color.WHITE);
 		combohospital.setBounds(80, 40, 550, 23);
 		painel.add(combohospital);
 		
@@ -87,14 +89,17 @@ public class AtendimentoDialog extends JDialog {
 		painel.add(LConvenio);
 		 
 		combomedico = new JComboBox<String>();
+		combomedico.setBackground(Color.WHITE);
 		combomedico.setBounds(80, 114, 200, 23);
 		painel.add(combomedico);
 		
 		comboconvenio = new JComboBox<String>();
+		comboconvenio.setBackground(Color.WHITE);
 		comboconvenio.setBounds(395, 70, 235, 23);
 		painel.add(comboconvenio);
 		
 		comboprocedimento = new JComboBox<String>();
+		comboprocedimento.setBackground(Color.WHITE);
 		comboprocedimento.setBounds(395, 114, 235, 23);
 		painel.add(comboprocedimento);
 		

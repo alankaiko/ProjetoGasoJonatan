@@ -1,10 +1,12 @@
 package br.com.gasomed.service;
 
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.List;
 
 import br.com.gasomed.modelo.Atendimento;
 import br.com.gasomed.repository.AtendimentoRepository;
+import br.com.gasomed.repository.filtro.AtendimentoFiltro;
 import br.com.gasomed.util.MensagemPainelUtil;
 
 public class AtendimentoService {
@@ -70,7 +72,7 @@ public class AtendimentoService {
 	
 	public List<Atendimento> BuscarRelatorio(String nome, Date datainicial, Date datafinal){
 		try {
-			return this.repositorio.BuscarRelatorio(nome, datainicial, datafinal);
+			return this.repositorio.BuscarRelatorio(nome, new java.sql.Date(datainicial.getTime()), new java.sql.Date(datafinal.getTime()));
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Buscar Relatórios!! " + e.getMessage());
 			return null;
@@ -86,18 +88,18 @@ public class AtendimentoService {
 		}
 	}
 	
-	public List<Atendimento> ListarAtendGeral(String convenio, String hospital, String medico, String procedimento, Date datainicial, Date datafinal){
+	public List<Atendimento> ListarAtendGeral(AtendimentoFiltro filtro){
 		try {
-			return this.repositorio.BuscarRelatorioGeral(convenio, hospital, medico, procedimento, datainicial, datafinal);
+			return this.repositorio.BuscarRelatorioGeral(filtro);
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Listar Nomes!!" + e.getMessage());
 			return null;
 		}
 	}
 	
-	public List<Atendimento> ListarConvenioMes(String convenio, String hospital, String procedimento, String medico, Date datainicial, Date datafinal){
+	public List<Atendimento> ListarRelatorios(AtendimentoFiltro filtro){
 		try {
-			return this.repositorio.ListarConvenioMes(convenio, hospital, procedimento, medico, datainicial, datafinal);
+			return this.repositorio.BuscarRelatorioGeral(filtro);
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Listar Nomes!!" + e.getMessage());
 			return null;

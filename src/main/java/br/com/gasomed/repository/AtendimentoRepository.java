@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.gasomed.modelo.Atendimento;
+import br.com.gasomed.repository.filtro.AtendimentoFiltro;
 import br.com.gasomed.util.ConexaoFactory;
 
 public class AtendimentoRepository {
@@ -324,48 +325,52 @@ public class AtendimentoRepository {
 		return lista;
 	}
 	
-	public List<Atendimento> BuscarRelatorioGeral(String convenio, String hospital, String medico, String procedimento, Date datainicial, Date datafinal) throws Exception {
+	public List<Atendimento> BuscarRelatorioGeral(AtendimentoFiltro filtro) throws Exception {
 		int cont = 3;
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT id, nome, hospital, medico, convenio, procedimento, leito, data, hora ");
 		sql.append("FROM atendimento ");
 		sql.append("WHERE (data BETWEEN ? AND ?) ");
-		
-		if(!convenio.equals("")) 
+
+		if(filtro.getConvenio() != "")
 			sql.append("AND convenio = ? ");
 
-		if(!hospital.equals("")) 
+		if(filtro.getHospital() != "") 
 			sql.append("AND hospital = ? ");
 		
-		if(!medico.equals("")) 
+		if(filtro.getMedico() != "") 
 			sql.append("AND medico = ? ");
 		
-		if(!procedimento.equals("")) 
+		if(filtro.getProcedimento() != "") 
 			sql.append("AND procedimento = ? ");
 
 		List<Atendimento> lista = new ArrayList<Atendimento>();
 		Connection con = ConexaoFactory.RetornaConexao();
 		PreparedStatement pre = con.prepareStatement(sql.toString());
+		
+		java.sql.Date datainicial = new java.sql.Date(filtro.getDatainicial().getTime());
+		java.sql.Date datafinal = new java.sql.Date(filtro.getDatafinal().getTime());
+		
 		pre.setDate(1, datainicial);
 		pre.setDate(2, datafinal);
 		
-		if(!convenio.equals("")) {
-			pre.setString(cont, convenio);
+		if(filtro.getConvenio() != "") {
+			pre.setString(cont, filtro.getConvenio());
 			cont++;
 		}
 		
-		if(!hospital.equals("")) {
-			pre.setString(cont, hospital);
+		if(filtro.getHospital() != "") {
+			pre.setString(cont, filtro.getHospital());
 			cont++;
 		}
 		
-		if(!medico.equals("")) {
-			pre.setString(cont, medico);
+		if(filtro.getMedico() != "") {
+			pre.setString(cont, filtro.getMedico());
 			cont++;
 		}
 		
-		if(!procedimento.equals("")) {
-			pre.setString(cont, procedimento);
+		if(filtro.getProcedimento() != "") {
+			pre.setString(cont, filtro.getProcedimento());
 			cont++;
 		}
 
@@ -387,70 +392,5 @@ public class AtendimentoRepository {
 
 		return lista;
 	}
-	
-	public List<Atendimento> ListarConvenioMes(String convenio, String hospital,String procedimento, String medico, Date datainicial, Date datafinal) throws Exception {
-		int cont = 3;
-		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, nome, procedimento, data, hospital, convenio, ");
-		sql.append("COUNT(Nome) AS quantidade ");
-		sql.append("FROM atendimento ");
-		sql.append("WHERE (data BETWEEN ? AND ?) ");
-		
-		if(!convenio.equals("")) 
-			sql.append("AND convenio = ? ");
 
-		if(!hospital.equals("")) 
-			sql.append("AND hospital = ? ");
-		
-		if(!procedimento.equals("")) 
-			sql.append("AND procedimento = ? ");
-
-		if(!medico.equals("")) 
-			sql.append("AND medico = ? ");
-		
-		sql.append("GROUP BY nome ORDER BY nome ");
-
-		List<Atendimento> lista = new ArrayList<Atendimento>();
-	
-		Connection con = ConexaoFactory.RetornaConexao();
-		PreparedStatement pre = con.prepareStatement(sql.toString());
-		pre.setDate(1, datainicial);
-		pre.setDate(2, datafinal);
-
-		if(!convenio.equals("")) {
-			pre.setString(cont, convenio);
-			cont++;
-		}
-		
-		if(!hospital.equals("")) {
-			pre.setString(cont, hospital);
-			cont++;
-		}
-		
-		if(!medico.equals("")) {
-			pre.setString(cont, medico);
-			cont++;
-		}
-		
-		if(!hospital.equals("")) {
-			pre.setString(cont, hospital);
-			cont++;
-		}
-		
-		ResultSet resultado = pre.executeQuery();
-
-		while(resultado.next()) {
-			Atendimento atendimento = new Atendimento();
-			atendimento.setId(resultado.getLong("id"));
-			atendimento.setNome(resultado.getString("nome"));
-			atendimento.setProcedimento(resultado.getString("procedimento"));
-			atendimento.setConvenio(resultado.getString("convenio"));
-			atendimento.setHospital(resultado.getString("hospital"));
-			atendimento.setData(resultado.getDate("data"));
-		
-			lista.add(atendimento);
-		}
-
-		return lista;
-	}
 }

@@ -124,7 +124,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[HORA:]]></text>
 			</staticText>
-			<textField pattern="HH.mm">
+			<textField pattern="HH:mm">
 				<reportElement x="378" y="144" width="115" height="20" uuid="0d78302f-6a7b-4cd3-8aa4-e85654566259"/>
 				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
 			</textField>

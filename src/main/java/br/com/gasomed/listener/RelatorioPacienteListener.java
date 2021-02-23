@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -18,6 +18,8 @@ import br.com.gasomed.modelo.Atendimento;
 import br.com.gasomed.service.AtendimentoService;
 import br.com.gasomed.tabela.Atendimentotabela;
 import br.com.gasomed.util.MensagemPainelUtil;
+import br.com.gasomed.zrelatorio.RelatorioGeral;
+import br.com.gasomed.zrelatorio.RelatorioPorPaciente;
 
 public class RelatorioPacienteListener implements ActionListener {
 	private RelatorioPacienteDialog tela;
@@ -54,17 +56,19 @@ public class RelatorioPacienteListener implements ActionListener {
 		if (evento.getSource().equals(this.tela.getBSair()))
 			this.tela.dispose();
 
-		if (evento.getSource().equals(this.tela.getBAbrir()) && this.ValidandoField())
+		if (evento.getSource().equals(this.tela.getBAbrir()) && ValidandoField())
+			this.CriarPDF();
+		else if (evento.getSource().equals(this.tela.getBGerar()) && ValidandoField())
 			this.GerarRelatorio();
-		
-		if (evento.getSource().equals(this.tela.getBGerar()))
-			this.GerarRelatorio();
+		else
+			MensagemPainelUtil.Erro("Informe o nome do paciente");
 	}
 
 	private void GerarRelatorio() {
 		Date datainicial = null;
 		Date datafinal = null;
 		String nome = null;
+		
 		try {
 			datainicial = new Date(this.tela.getDatainicial().getDate().getTime());
 			datafinal = new Date(this.tela.getDatafinal().getDate().getTime());
@@ -75,6 +79,22 @@ public class RelatorioPacienteListener implements ActionListener {
 		
 		AtendimentoService service = new AtendimentoService();
 		this.TabelaDeAtendimentos(service.BuscarRelatorio(nome, datainicial, datafinal));
+	}
+	
+	private void CriarPDF() {
+		
+		try {
+			String nomepaciente = this.tela.getTNome().getText();
+			
+			Date dataini = this.tela.getDatainicial().getDate();
+			Date datafini = this.tela.getDatafinal().getDate();
+
+			RelatorioPorPaciente rel = new RelatorioPorPaciente();
+			System.out.println("nome " +  nomepaciente);
+			rel.RelatorioPorPessoa(nomepaciente, dataini, datafini);
+		} catch (Exception e) {
+			MensagemPainelUtil.Erro("Verificar Datas estão selecionadas");
+		}		
 	}
 
 	@SuppressWarnings("serial")

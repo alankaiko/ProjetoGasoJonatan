@@ -1,6 +1,6 @@
 package br.com.gasomed.repository.filtro;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class AtendimentoFiltro {
 	private String hospital;

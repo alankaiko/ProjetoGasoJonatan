@@ -6,7 +6,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -27,7 +26,7 @@ import br.com.gasomed.service.MedicoService;
 import br.com.gasomed.service.ProcedimentoService;
 import br.com.gasomed.tabela.Atendimentotabela;
 import br.com.gasomed.util.MensagemPainelUtil;
-import br.com.gasomed.zrelatorio.RelatorioConvenioMes;
+import br.com.gasomed.zrelatorio.RelatorioGeral;
 
 public class RelatorioGeralListener implements ActionListener, ItemListener {
 	private RelatorioGeralDialog tela;
@@ -81,55 +80,68 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 	}
 
 	private void BuscarDados() {
-		Date datainicial = null;
-		Date datafinal = null;
-		String convenio = "";
-		String hospital = "";
-		String medico = "";
-		String procedimento = "";
+		AtendimentoFiltro filtro = new AtendimentoFiltro();
+		
 		try {
-			datainicial = new Date(this.tela.getDatainicial().getDate().getTime());
-			datafinal = new Date(this.tela.getDatafinal().getDate().getTime());
+			filtro.setDatainicial(this.tela.getDatainicial().getDate());
+			filtro.setDatafinal(this.tela.getDatafinal().getDate());
 			
 			if(this.tela.getCheckconvenio().isSelected()) 
-				convenio = this.tela.getComboconvenio().getSelectedItem() + "";
+				filtro.setConvenio(this.tela.getComboconvenio().getSelectedItem() + "");
+			else
+				filtro.setConvenio("");
 			
 			if(this.tela.getCheckhospital().isSelected())
-				hospital = this.tela.getCombohospital().getSelectedItem() + "";
+				filtro.setHospital(this.tela.getCombohospital().getSelectedItem() + "");
+			else
+				filtro.setHospital("");
 			
 			if(this.tela.getCheckmedico().isSelected())
-				medico = this.tela.getCombomedico().getSelectedItem() + "";
+				filtro.setMedico(this.tela.getCombomedico().getSelectedItem() + "");
+			else
+				filtro.setMedico("");
 			
 			if(this.tela.getCheckprocedimento().isSelected())
-				medico = this.tela.getComboprocedimento().getSelectedItem() + "";
+				filtro.setProcedimento(this.tela.getComboprocedimento().getSelectedItem() + "");
+			else
+				filtro.setProcedimento("");
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Verificar Datas estão selecionadas");
 		}
-		
+
 		AtendimentoService service = new AtendimentoService();
-		this.TabelaDeAtendimentos(service.ListarAtendGeral(convenio, hospital, medico, procedimento, datainicial, datafinal));
+		List<Atendimento> lista = service.ListarAtendGeral(filtro);
+		this.TabelaDeAtendimentos(lista);
 	}
 	
 	private void CriarPDF() {
 		AtendimentoFiltro filtro = new AtendimentoFiltro();
 		
 		try {
-			filtro.setDatainicial(new java.sql.Date(this.tela.getDatainicial().getDate().getTime()));
-			filtro.setDatafinal(new java.sql.Date(this.tela.getDatafinal().getDate().getTime()));
+			filtro.setDatainicial(this.tela.getDatainicial().getDate());
+			filtro.setDatafinal(this.tela.getDatafinal().getDate());
 			
 			if(this.tela.getCheckconvenio().isSelected()) 
 				filtro.setConvenio(this.tela.getComboconvenio().getSelectedItem() + "");
+			else
+				filtro.setConvenio("");
 			
 			if(this.tela.getCheckhospital().isSelected())
 				filtro.setHospital(this.tela.getCombohospital().getSelectedItem() + "");
+			else
+				filtro.setHospital("");
 			
 			if(this.tela.getCheckmedico().isSelected())
 				filtro.setMedico(this.tela.getCombomedico().getSelectedItem() + "");
+			else
+				filtro.setMedico("");
 			
 			if(this.tela.getCheckprocedimento().isSelected())
 				filtro.setProcedimento(this.tela.getComboprocedimento().getSelectedItem() + "");
+			else
+				filtro.setProcedimento("");
 			
-			RelatorioConvenioMes rel = new RelatorioConvenioMes();
+			RelatorioGeral rel = new RelatorioGeral();
 			rel.RelatorioPorPessoa(filtro);
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Verificar Datas estão selecionadas");

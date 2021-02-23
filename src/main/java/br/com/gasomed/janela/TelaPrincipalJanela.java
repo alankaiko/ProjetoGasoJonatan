@@ -2,10 +2,10 @@ package br.com.gasomed.janela;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
@@ -19,8 +19,6 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.gasomed.listener.BarraStatusListener;
 import br.com.gasomed.listener.TelaPrincipalListener;
-
-import java.awt.Font;
 
 public class TelaPrincipalJanela extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -37,19 +35,6 @@ public class TelaPrincipalJanela extends JFrame {
 	private JMenu cadastromenu, relatoriomenu;
 	private JMenuItem geralrelatorio, pacienterelatorio, atendimentoitem, profissionalitem, hopitalitem, convenioitem, procedimentoitem;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaPrincipalJanela frame = new TelaPrincipalJanela();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public TelaPrincipalJanela() {
 		this.MontarTelaPadrao();
 		this.CriarComponentes();
@@ -63,10 +48,11 @@ public class TelaPrincipalJanela extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipalJanela.class.getResource("/imagens/icone.png")));
 		this.setTitle("GMeD");
 		this.setBounds(0, 0, 1135, 685);
-		//this.setLocationRelativeTo(null);
+		this.setLocationRelativeTo(null);
 		setResizable(false);
 	}
 	
+	@SuppressWarnings("serial")
 	private void CriarComponentes() {
 		this.menu = new JMenuBar();
 		setJMenuBar(menu);
@@ -107,42 +93,39 @@ public class TelaPrincipalJanela extends JFrame {
 		pacienterelatorio.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.relatoriomenu.add(pacienterelatorio);
 		
-		this.painelcentral = new JPanel();
+		final Image fundoLogin = new ImageIcon(getClass().getResource("/imagens/tela.jpg")).getImage();
+		this.painelcentral = new JPanel(new BorderLayout()) {
+            @Override public void paintComponent(Graphics g) {
+                g.drawImage(fundoLogin, 0, 0, null);
+            }
+        };
+		painelcentral.setBackground(Color.WHITE);
 		this.painelcentral.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.painelcentral.setLayout(new BorderLayout(0, 0));
 		setContentPane(painelcentral);
+		painelcentral.setLayout(null);
 		
 		this.rodape = new JPanel();
+		rodape.setBounds(new Rectangle(0, 593, 1119, 29));
 		this.rodape.setBackground(Color.WHITE);
-		this.painelcentral.add(rodape, BorderLayout.SOUTH);
-		this.rodape.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		this.painelcentral.add(rodape);
+		rodape.setLayout(null);
 		
 		this.LAdministracao = new JLabel();
+		LAdministracao.setBounds(10, 5, 300, 20);
 		this.LAdministracao.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.rodape.add(LAdministracao);
 		
 		this.LStatusData = new JLabel();
+		LStatusData.setBounds(710, 5, 300, 20);
 		this.LStatusData.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.rodape.add(LStatusData);
 		
 		this.LStatusHora = new JLabel();
+		LStatusHora.setBounds(1017, 5, 100, 20);
 		this.LStatusHora.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.rodape.add(LStatusHora);
 	}
 	
-	@SuppressWarnings("serial")
-	public void RenderizarImagem(){
-	    try {
-	    	final Image fundoLogin = new ImageIcon(getClass().getResource("/imagens/tela.jpg")).getImage();
-	        setContentPane(new JPanel(new BorderLayout()) {
-	            @Override public void paintComponent(Graphics g) {
-	                g.drawImage(fundoLogin, 0, 0, null);
-	            }
-	        });
-	    } catch (Exception e) {
-	        throw new RuntimeException(e);
-	    }
-	}
 
 	public JLabel getLStatusHora() {
 		return LStatusHora;
