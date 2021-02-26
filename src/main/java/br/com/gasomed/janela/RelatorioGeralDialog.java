@@ -44,7 +44,7 @@ public class RelatorioGeralDialog extends JDialog {
 	
 	private void MontarDados() {
 		setBounds(100, 100, 900, 470);
-		setTitle("RELATÓRIO GERAL");
+		setTitle("RELATORIO GERAL");
 		getContentPane().setLayout(new BorderLayout());
 		painel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(painel, BorderLayout.CENTER);

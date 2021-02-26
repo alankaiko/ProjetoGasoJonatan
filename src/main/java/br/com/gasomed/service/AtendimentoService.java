@@ -72,7 +72,7 @@ public class AtendimentoService {
 	
 	public List<Atendimento> BuscarRelatorio(String nome, Date datainicial, Date datafinal){
 		try {
-			return this.repositorio.BuscarRelatorio(nome, new java.sql.Date(datainicial.getTime()), new java.sql.Date(datafinal.getTime()));
+			return this.repositorio.BuscarRelPorPaciente(nome, new java.sql.Date(datainicial.getTime()), new java.sql.Date(datafinal.getTime()));
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Buscar Relatórios!! " + e.getMessage());
 			return null;

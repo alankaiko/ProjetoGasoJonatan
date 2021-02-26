@@ -45,9 +45,9 @@ public class TelaPrincipalJanela extends JFrame {
 	
 	private void MontarTelaPadrao() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipalJanela.class.getResource("/imagens/icone.png")));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipalJanela.class.getResource("/imagens/icone.ico")));
 		this.setTitle("GMeD");
-		this.setBounds(0, 0, 1135, 685);
+		this.setBounds(0, 0, 1130, 685);
 		this.setLocationRelativeTo(null);
 		setResizable(false);
 	}
@@ -69,7 +69,7 @@ public class TelaPrincipalJanela extends JFrame {
 		this.profissionalitem.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.cadastromenu.add(profissionalitem);
 		
-		this.convenioitem = new JMenuItem("Convênio");
+		this.convenioitem = new JMenuItem("Convenio");
 		this.convenioitem.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.cadastromenu.add(convenioitem);
 		
@@ -81,7 +81,7 @@ public class TelaPrincipalJanela extends JFrame {
 		this.procedimentoitem.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.cadastromenu.add(procedimentoitem);
 		
-		this.relatoriomenu = new JMenu("RELATÓRIO");
+		this.relatoriomenu = new JMenu("RELATORIO");
 		this.relatoriomenu.setFont(new Font("Dialog", Font.PLAIN, 13));
 		this.menu.add(relatoriomenu);
 		
@@ -100,12 +100,13 @@ public class TelaPrincipalJanela extends JFrame {
             }
         };
 		painelcentral.setBackground(Color.WHITE);
+		painelcentral.setBounds(0, 0, 1130, 685);
 		this.painelcentral.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(painelcentral);
 		painelcentral.setLayout(null);
 		
 		this.rodape = new JPanel();
-		rodape.setBounds(new Rectangle(0, 593, 1119, 29));
+		rodape.setBounds(new Rectangle(0, 593, 1130, 29));
 		this.rodape.setBackground(Color.WHITE);
 		this.painelcentral.add(rodape);
 		rodape.setLayout(null);
@@ -121,7 +122,7 @@ public class TelaPrincipalJanela extends JFrame {
 		this.rodape.add(LStatusData);
 		
 		this.LStatusHora = new JLabel();
-		LStatusHora.setBounds(1017, 5, 100, 20);
+		LStatusHora.setBounds(1010, 5, 100, 20);
 		this.LStatusHora.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.rodape.add(LStatusHora);
 	}

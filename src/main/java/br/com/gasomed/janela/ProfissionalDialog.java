@@ -47,7 +47,7 @@ public class ProfissionalDialog extends JDialog {
 	
 	private void MontarDados() {
 		setBounds(100, 100, 620, 380);
-		setTitle("CADASTRO DE MÉDICO");
+		setTitle("CADASTRO DE MEDICO");
 		getContentPane().setLayout(new BorderLayout());
 		painel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(painel, BorderLayout.CENTER);

@@ -55,9 +55,6 @@ public class ProfissionalListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evento) {
-		if (evento.getSource().equals(this.tela.getBSair()))
-			this.tela.dispose();
-
 		if (evento.getSource().equals(this.tela.getBGravar()) && this.ValidandoField())
 			this.AdicionarValor();
 		
@@ -66,6 +63,8 @@ public class ProfissionalListener implements ActionListener {
 		
 		else if (evento.getSource().equals(this.tela.getBExcluir()))
 			this.ExcluirValor(this.SelecionaLinha());
+		else if (evento.getSource().equals(this.tela.getBSair()))
+			this.tela.dispose();
 		else
 			MensagemPainelUtil.Erro("Preencha os campos");
 		
@@ -87,7 +86,7 @@ public class ProfissionalListener implements ActionListener {
 			this.tela.getComboestado().setSelectedItem("GO");
 			this.medico = new Medico();
 		}else {
-			MensagemPainelUtil.Erro("MÉDICO JÁ CADASTRADO");
+			MensagemPainelUtil.Erro("MEDICO JA CADASTRADO");
 		}
 	}
 	

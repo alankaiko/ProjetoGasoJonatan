@@ -274,11 +274,11 @@ public class AtendimentoRepository {
 		return atendimento;
 	}
 	
-	public List<Atendimento> BuscarRelatorio(String nome, Date datainicial, Date datafinal) throws Exception {
+	public List<Atendimento> BuscarRelPorPaciente(String nome, Date datainicial, Date datafinal) throws Exception {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora, procedimento ");
 		sql.append("FROM atendimento ");
-		sql.append("WHERE (data BETWEEN ? AND ?) AND nome LIKE ? ");
+		sql.append("WHERE (data BETWEEN ? AND ?) AND nome = ? ");
 
 		List<Atendimento> lista = new ArrayList<Atendimento>();
 
@@ -286,7 +286,7 @@ public class AtendimentoRepository {
 		PreparedStatement pre = con.prepareStatement(sql.toString());
 		pre.setDate(1, datainicial);
 		pre.setDate(2, datafinal);
-		pre.setString(3, "%" + nome + "%");
+		pre.setString(3, nome);
 
 		ResultSet resultado = pre.executeQuery();
 

@@ -53,11 +53,10 @@ public class AtendimentoListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evento) {
-		if (evento.getSource().equals(this.tela.getBSair()))
-			this.tela.dispose();
-
 		if (evento.getSource().equals(this.tela.getBGravar()) && this.ValidandoField())
 			this.AdicionarValor();
+		else if (evento.getSource().equals(this.tela.getBSair()))
+			this.tela.dispose();
 		else
 			MensagemPainelUtil.Erro("Preencha todos os campos!!");
 	}
@@ -118,7 +117,7 @@ public class AtendimentoListener implements ActionListener {
 			RelatorioAtendimento relatorio = new RelatorioAtendimento();
 			relatorio.RelatorioPorAtendimento(valor, this.atendimento.getFile());
 		} catch (Exception e) {
-			MensagemPainelUtil.Erro("Erro ao Gerar Relatório Atendimento!!");
+			MensagemPainelUtil.Erro("Erro ao Gerar Relatorio Atendimento!!");
 		}
 	}
 

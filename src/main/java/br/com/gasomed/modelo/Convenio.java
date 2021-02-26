@@ -7,6 +7,7 @@ public class Convenio implements Serializable {
 
 	private Long id;
 	private String nome;
+	private String valor;
 
 	public Long getId() {
 		return id;
@@ -22,6 +23,14 @@ public class Convenio implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getValor() {
+		return valor;
+	}
+	
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
 
 	@Override

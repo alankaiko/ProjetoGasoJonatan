@@ -55,9 +55,6 @@ public class HospitalListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evento) {
-		if (evento.getSource().equals(this.tela.getBSair()))
-			this.tela.dispose();
-
 		if (evento.getSource().equals(this.tela.getBGravar()) && this.ValidandoField())
 			this.AdicionarValor();
 		
@@ -66,6 +63,8 @@ public class HospitalListener implements ActionListener {
 		
 		else if (evento.getSource().equals(this.tela.getBExcluir()))
 			this.ExcluirValor(this.SelecionaLinha());
+		else if (evento.getSource().equals(this.tela.getBSair()))
+			this.tela.dispose();
 		else
 			MensagemPainelUtil.Erro("Preencha os campos");
 		
@@ -83,7 +82,7 @@ public class HospitalListener implements ActionListener {
 			this.tela.getTNome().setText("");
 			this.hospital = new Hospital();
 		}else {
-			MensagemPainelUtil.Erro("HOSPITAL JÁ CADASTRADO");
+			MensagemPainelUtil.Erro("HOSPITAL JA CADASTRADO");
 		}
 	}
 	

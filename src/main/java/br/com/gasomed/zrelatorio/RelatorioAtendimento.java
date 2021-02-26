@@ -23,7 +23,7 @@ public class RelatorioAtendimento {
 		Map<String, Object> parametros = new HashMap<>();	
 		parametros.put("codigo", codigo);
 		
-		InputStream inputStream = this.getClass().getResourceAsStream("/relatorios/atendimento.jasper");	
+		InputStream inputStream = this.getClass().getResourceAsStream("/jaspter/atendimento.jasper");	
 		JasperPrint impressao = null;
 		
         try {

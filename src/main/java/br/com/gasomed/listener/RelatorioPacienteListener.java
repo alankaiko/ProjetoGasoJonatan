@@ -18,7 +18,6 @@ import br.com.gasomed.modelo.Atendimento;
 import br.com.gasomed.service.AtendimentoService;
 import br.com.gasomed.tabela.Atendimentotabela;
 import br.com.gasomed.util.MensagemPainelUtil;
-import br.com.gasomed.zrelatorio.RelatorioGeral;
 import br.com.gasomed.zrelatorio.RelatorioPorPaciente;
 
 public class RelatorioPacienteListener implements ActionListener {
@@ -53,13 +52,12 @@ public class RelatorioPacienteListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evento) {
-		if (evento.getSource().equals(this.tela.getBSair()))
-			this.tela.dispose();
-
 		if (evento.getSource().equals(this.tela.getBAbrir()) && ValidandoField())
 			this.CriarPDF();
 		else if (evento.getSource().equals(this.tela.getBGerar()) && ValidandoField())
 			this.GerarRelatorio();
+		else if (evento.getSource().equals(this.tela.getBSair()))
+			this.tela.dispose();
 		else
 			MensagemPainelUtil.Erro("Informe o nome do paciente");
 	}
@@ -74,7 +72,7 @@ public class RelatorioPacienteListener implements ActionListener {
 			datafinal = new Date(this.tela.getDatafinal().getDate().getTime());
 			nome = this.tela.getTNome().getText();
 		} catch (Exception e) {
-			MensagemPainelUtil.Erro("Verificar Datas estão selecionadas");
+			MensagemPainelUtil.Erro("Verificar Datas estao selecionadas");
 		}
 		
 		AtendimentoService service = new AtendimentoService();
@@ -90,10 +88,9 @@ public class RelatorioPacienteListener implements ActionListener {
 			Date datafini = this.tela.getDatafinal().getDate();
 
 			RelatorioPorPaciente rel = new RelatorioPorPaciente();
-			System.out.println("nome " +  nomepaciente);
 			rel.RelatorioPorPessoa(nomepaciente, dataini, datafini);
 		} catch (Exception e) {
-			MensagemPainelUtil.Erro("Verificar Datas estão selecionadas");
+			MensagemPainelUtil.Erro("Verificar Datas estao selecionadas");
 		}		
 	}
 

@@ -29,7 +29,7 @@ public class RelatorioPorPaciente {
 		parametros.put("nomepaciente", nomepaciente);		
 		
 		
-		InputStream inputStream = this.getClass().getResourceAsStream("/relatorios/relatoriopornome.jasper");	
+		InputStream inputStream = this.getClass().getResourceAsStream("/jaspter/relatoriopornome.jasper");	
 		JasperPrint impressao = null;
 		
         try {

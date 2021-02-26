@@ -55,9 +55,6 @@ public class ConvenioListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evento) {
-		if (evento.getSource().equals(this.tela.getBSair()))
-			this.tela.dispose();
-
 		if (evento.getSource().equals(this.tela.getBGravar()) && this.ValidandoField())
 			this.AdicionarValor();
 		
@@ -66,7 +63,8 @@ public class ConvenioListener implements ActionListener {
 		
 		else if (evento.getSource().equals(this.tela.getBExcluir()))
 			this.ExcluirValor(this.SelecionaLinha());
-		
+		else if (evento.getSource().equals(this.tela.getBSair()))
+			this.tela.dispose();
 		else
 			MensagemPainelUtil.Erro("Preencha os campos");
 		
@@ -84,7 +82,7 @@ public class ConvenioListener implements ActionListener {
 			this.tela.getTNome().setText("");
 			this.convenio = new Convenio();
 		}else {
-			MensagemPainelUtil.Erro("CONVÊNIO JÁ CADASTRADO");
+			MensagemPainelUtil.Erro("CONVENIO JA CADASTRADO");
 		}
 	}
 	

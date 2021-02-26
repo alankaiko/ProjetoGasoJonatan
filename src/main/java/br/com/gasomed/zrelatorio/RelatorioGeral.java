@@ -30,10 +30,10 @@ public class RelatorioGeral {
 		parametros.put("hosp",filtro.getHospital() + "");
 		parametros.put("conv", filtro.getConvenio() + "");
 		parametros.put("procedim", filtro.getProcedimento() + "");
-		parametros.put("medic", filtro.getMedico() + "");		
+		parametros.put("medic", filtro.getMedico() + "");	
+		parametros.put("SUBREPORT_DIR", "jaspter//");
 		
-		
-		InputStream inputStream = this.getClass().getResourceAsStream("/relatorios/porhospital.jasper");	
+		InputStream inputStream = this.getClass().getResourceAsStream("/jaspter/porhospital.jasper");	
 		JasperPrint impressao = null;
 		
         try {

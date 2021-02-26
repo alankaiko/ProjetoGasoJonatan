@@ -106,7 +106,7 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 			else
 				filtro.setProcedimento("");
 		} catch (Exception e) {
-			MensagemPainelUtil.Erro("Verificar Datas estão selecionadas");
+			MensagemPainelUtil.Erro("Verificar Datas estao selecionadas");
 		}
 
 		AtendimentoService service = new AtendimentoService();
@@ -144,7 +144,7 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 			RelatorioGeral rel = new RelatorioGeral();
 			rel.RelatorioPorPessoa(filtro);
 		} catch (Exception e) {
-			MensagemPainelUtil.Erro("Verificar Datas estão selecionadas");
+			MensagemPainelUtil.Erro("Verificar Datas estao selecionadas");
 		}		
 	}
 

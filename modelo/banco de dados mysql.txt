@@ -1,0 +1,50 @@
+CREATE DATABASE `gasomed`;
+
+CREATE TABLE `gasomed`.`atendimento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `hospital` varchar(100) NOT NULL,
+  `medico` varchar(100) NOT NULL,
+  `procedimento` varchar(100) NOT NULL,
+  `convenio` varchar(100) NOT NULL,
+  `leito` varchar(100) NOT NULL,
+  `data` date NOT NULL,
+  `hora` time NOT NULL,
+  `ph` varchar(100) NOT NULL,
+  `po` varchar(100) NOT NULL,
+  `pco` varchar(100) NOT NULL,
+  `hco` varchar(100) NOT NULL,
+  `co2total` varchar(100) NOT NULL,
+  `be` varchar(100) NOT NULL,
+  `o2sat` varchar(100) NOT NULL,
+  `na` varchar(100) NOT NULL,
+  `k` varchar(100) NOT NULL,
+  `file` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `gasomed`.`convenio` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `gasomed`.`hospital` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `gasomed`.`medico` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `crm` varchar(100) NOT NULL,
+  `estado` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `gasomed`.`procedimento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

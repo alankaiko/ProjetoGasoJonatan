@@ -82,7 +82,7 @@ public class AtendimentoDialog extends JDialog {
 		combohospital.setBounds(80, 40, 550, 23);
 		painel.add(combohospital);
 		
-		LConvenio = new JLabel("Convênio:");
+		LConvenio = new JLabel("Convenio:");
 		LConvenio.setHorizontalAlignment(SwingConstants.RIGHT);
 		LConvenio.setFont(new Font("Dialog", Font.BOLD, 13));
 		LConvenio.setBounds(290, 75, 95, 14);
@@ -103,7 +103,7 @@ public class AtendimentoDialog extends JDialog {
 		comboprocedimento.setBounds(395, 114, 235, 23);
 		painel.add(comboprocedimento);
 		
-		LMedico = new JLabel("Médico:");
+		LMedico = new JLabel("Medico:");
 		LMedico.setHorizontalAlignment(SwingConstants.RIGHT);
 		LMedico.setFont(new Font("Dialog", Font.BOLD, 13));
 		LMedico.setBounds(10, 120, 60, 14);
