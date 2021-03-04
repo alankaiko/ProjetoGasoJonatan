@@ -12,12 +12,12 @@ public class MensagemPainelUtil {
 
 	@SuppressWarnings("static-access")
 	public static void Advertencia() {
-		mensagem.showMessageDialog(mensagem, "Preencha os campos Obrigatórios");
+		mensagem.showMessageDialog(mensagem, "Preencha os campos Obrigatorios");
 	}
 
 	@SuppressWarnings("static-access")
 	public static void AutenticaUsuario() {
-		mensagem.showMessageDialog(mensagem, "Usuário inexistente");
+		mensagem.showMessageDialog(mensagem, "Usuario inexistente");
 	}
 
 	@SuppressWarnings("static-access")

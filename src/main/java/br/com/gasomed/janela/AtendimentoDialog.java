@@ -3,6 +3,7 @@ package br.com.gasomed.janela;
 import java.awt.BorderLayout;
 import java.awt.Font;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -13,16 +14,22 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import br.com.gasomed.listener.AtendimentoListener;
+import br.com.gasomed.modelo.EnumNatureza;
 import br.com.gasomed.util.CampoMaiusculoUtil;
 import java.awt.Color;
+import com.toedter.calendar.JDateChooser;
+import java.util.Date;
+import java.util.Vector;
+import javax.swing.JSeparator;
 
 public class AtendimentoDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private final JPanel painel = new JPanel();
-	private JLabel LNome, LHospital, LLeito, LConvenio, LMedico, LPh, LHco2, LO2sat, LPo2, LCo2, LNa, Lpco2, LBe, LK, LProcedimento;
+	private JLabel LNome, LHospital, LLeito, LConvenio, LMedico, LPh, LHco2, LO2sat, LPo2, LCo2, LNa, Lpco2, LBe, LK, LNatureza;
 	private JButton BGravar, BSair;
-	private JComboBox<String> combohospital, combomedico, comboconvenio, comboprocedimento;
+	private JDateChooser datacad;
+	private JComboBox<String> combohospital, combomedico, comboconvenio, combonatureza;
 	private JTextField TNome, TLeito, TPh, Thco2, TO2sat, TNa, TCo2, TPo2, TK, TBe, TPco2;
 	
 	@SuppressWarnings("unused")
@@ -46,6 +53,7 @@ public class AtendimentoDialog extends JDialog {
 		painel.setLayout(null);
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void MontarComponentes() {
 		TNome = new JTextField();
 		TNome.setDocument(new CampoMaiusculoUtil());
@@ -68,7 +76,7 @@ public class AtendimentoDialog extends JDialog {
 		TLeito = new JTextField();
 		TLeito.setDocument(new CampoMaiusculoUtil());
 		TLeito.setColumns(10);
-		TLeito.setBounds(80, 70, 200, 23);
+		TLeito.setBounds(80, 70, 265, 23);
 		painel.add(TLeito);
 		
 		LLeito = new JLabel("Leito:");
@@ -79,34 +87,29 @@ public class AtendimentoDialog extends JDialog {
 		
 		combohospital = new JComboBox<String>();
 		combohospital.setBackground(Color.WHITE);
-		combohospital.setBounds(80, 40, 550, 23);
+		combohospital.setBounds(80, 40, 265, 23);
 		painel.add(combohospital);
 		
 		LConvenio = new JLabel("Convenio:");
 		LConvenio.setHorizontalAlignment(SwingConstants.RIGHT);
 		LConvenio.setFont(new Font("Dialog", Font.BOLD, 13));
-		LConvenio.setBounds(290, 75, 95, 14);
+		LConvenio.setBounds(361, 75, 75, 14);
 		painel.add(LConvenio);
 		 
 		combomedico = new JComboBox<String>();
 		combomedico.setBackground(Color.WHITE);
-		combomedico.setBounds(80, 114, 200, 23);
+		combomedico.setBounds(80, 105, 265, 23);
 		painel.add(combomedico);
 		
 		comboconvenio = new JComboBox<String>();
 		comboconvenio.setBackground(Color.WHITE);
-		comboconvenio.setBounds(395, 70, 235, 23);
+		comboconvenio.setBounds(446, 70, 184, 23);
 		painel.add(comboconvenio);
-		
-		comboprocedimento = new JComboBox<String>();
-		comboprocedimento.setBackground(Color.WHITE);
-		comboprocedimento.setBounds(395, 114, 235, 23);
-		painel.add(comboprocedimento);
 		
 		LMedico = new JLabel("Medico:");
 		LMedico.setHorizontalAlignment(SwingConstants.RIGHT);
 		LMedico.setFont(new Font("Dialog", Font.BOLD, 13));
-		LMedico.setBounds(10, 120, 60, 14);
+		LMedico.setBounds(10, 110, 60, 14);
 		painel.add(LMedico);
 		
 		LPh = new JLabel("PH:");
@@ -229,11 +232,29 @@ public class AtendimentoDialog extends JDialog {
 		BSair.setBounds(471, 248, 75, 22);
 		painel.add(BSair);
 		
-		LProcedimento = new JLabel("Procedimento:");
-		LProcedimento.setHorizontalAlignment(SwingConstants.RIGHT);
-		LProcedimento.setFont(new Font("Dialog", Font.BOLD, 13));
-		LProcedimento.setBounds(290, 120, 95, 14);
-		painel.add(LProcedimento);
+		JLabel LData = new JLabel("Data:");
+		LData.setHorizontalAlignment(SwingConstants.RIGHT);
+		LData.setFont(new Font("Dialog", Font.BOLD, 13));
+		LData.setBounds(370, 45, 66, 14);
+		painel.add(LData);
+		
+		datacad = new JDateChooser(new Date());
+		datacad.setDateFormatString("EEEE - dd-MM-yyyy");
+		datacad.setBounds(446, 40, 184, 23);
+		painel.add(datacad);
+		
+		LNatureza = new JLabel("Nat. Exame:");
+		LNatureza.setHorizontalAlignment(SwingConstants.RIGHT);
+		LNatureza.setFont(new Font("Dialog", Font.BOLD, 13));
+		LNatureza.setBounds(351, 110, 85, 14);
+		painel.add(LNatureza);
+		
+		combonatureza = new JComboBox<String>();
+		combonatureza.setModel(new DefaultComboBoxModel(EnumNatureza.values()));
+		combonatureza.setBackground(Color.WHITE);
+		combonatureza.setBounds(446, 105, 184, 23);
+		painel.add(combonatureza);
+
 	}
 
 	public JButton getBGravar() {
@@ -275,15 +296,6 @@ public class AtendimentoDialog extends JDialog {
 	public void setComboconvenio(JComboBox<String> comboconvenio) {
 		this.comboconvenio = comboconvenio;
 	}
-	
-	public JComboBox<String> getComboprocedimento() {
-		return comboprocedimento;
-	}
-	
-	public void setComboprocedimento(JComboBox<String> comboprocedimento) {
-		this.comboprocedimento = comboprocedimento;
-	}
-	
 
 	public JTextField getTNome() {
 		return TNome;
@@ -371,5 +383,21 @@ public class AtendimentoDialog extends JDialog {
 
 	public void setTPco2(JTextField tPco2) {
 		TPco2 = tPco2;
+	}
+	
+	public JDateChooser getDatacad() {
+		return datacad;
+	}
+	
+	public void setDatacad(JDateChooser datacad) {
+		this.datacad = datacad;
+	}
+	
+	public JComboBox<String> getCombonatureza() {
+		return combonatureza;
+	}
+	
+	public void setCombonatureza(JComboBox<String> combonatureza) {
+		this.combonatureza = combonatureza;
 	}
 }

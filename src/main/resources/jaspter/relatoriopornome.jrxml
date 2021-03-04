@@ -18,15 +18,13 @@
      atendimento.`hospital` AS hospital,
      atendimento.`medico` AS medico,
      atendimento.`convenio` AS convenio,
-     atendimento.`procedimento` AS procedimento,
-     atendimento.`data` AS data
+     atendimento.`data` AS data,
+     atendimento.`leito` AS leito
 FROM
      `atendimento` atendimento
 WHERE
      (data BETWEEN $P{dataini} AND $P{datafini})
- AND (nome = $P{nomepaciente})
-ORDER BY
-     procedimento;]]>
+ AND (nome = $P{nomepaciente})]]>
 	</queryString>
 	<field name="nome" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -40,10 +38,10 @@ ORDER BY
 	<field name="convenio" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="procedimento" class="java.lang.String">
+	<field name="data" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="data" class="java.sql.Date">
+	<field name="leito" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -131,7 +129,7 @@ ORDER BY
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PROCED.]]></text>
+				<text><![CDATA[LEITO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="269" y="0" width="86" height="20" backcolor="#CCCCCC" uuid="631b7f1f-fb7f-4aed-8bd0-8da04bbd02f0"/>
@@ -205,7 +203,7 @@ ORDER BY
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{procedimento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{leito}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="269" y="0" width="86" height="20" uuid="2b9cc96e-7383-4bb0-b896-5330a8591e0f"/>

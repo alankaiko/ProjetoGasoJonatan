@@ -14,7 +14,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import br.com.gasomed.janela.RelatorioGeralDialog;
 import br.com.gasomed.modelo.Atendimento;
@@ -23,7 +24,6 @@ import br.com.gasomed.service.AtendimentoService;
 import br.com.gasomed.service.ConvenioService;
 import br.com.gasomed.service.HospitalService;
 import br.com.gasomed.service.MedicoService;
-import br.com.gasomed.service.ProcedimentoService;
 import br.com.gasomed.tabela.Atendimentotabela;
 import br.com.gasomed.util.MensagemPainelUtil;
 import br.com.gasomed.zrelatorio.RelatorioGeral;
@@ -38,7 +38,6 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 		this.BuscarConvenio();
 		this.BuscarHospital();
 		this.BuscarMedico();
-		this.BuscarProcedimento();
 		this.UsandoTAB();
 		this.TeclaEsc();
 	}
@@ -47,23 +46,27 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 		this.tela.getBAbrir().addActionListener(this);
 		this.tela.getBSair().addActionListener(this);
 		this.tela.getBGerar().addActionListener(this);
-		
+
 		this.tela.getCheckconvenio().addItemListener(this);
 		this.tela.getCheckhospital().addItemListener(this);
 		this.tela.getCheckmedico().addItemListener(this);
-		this.tela.getCheckprocedimento().addItemListener(this);
 	}
 
 	private void TabelaDeAtendimentos(List<Atendimento> lista) {
+		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		tabela = new Atendimentotabela(lista);
 		this.tela.getTabela().setModel(tabela);
-		this.tela.getTabela().getColumnModel().getColumn(0).setPreferredWidth(10);
+		this.tela.getTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
 		this.tela.getTabela().getColumnModel().getColumn(1).setPreferredWidth(210);
-		this.tela.getTabela().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		this.tela.getTabela().getColumnModel().getColumn(0).setCellRenderer(centralizado);
+		this.tela.getTabela().getColumnModel().getColumn(4).setCellRenderer(centralizado);
+		this.tela.getTabela().getColumnModel().getColumn(5).setCellRenderer(centralizado);
+		this.tela.getTabela().getColumnModel().getColumn(6).setCellRenderer(centralizado);
+		this.tela.getTabela().getColumnModel().getColumn(7).setCellRenderer(centralizado);
 
-		//this.tela.getTabela().changeSelection(0, 0, false, false);
-		// this.gerenciamento.getTable().setRowSelectionInterval(0, 0);
-		this.tela.getTabela().setFocusable(false);
 		this.tela.getScrollpane().setViewportView(this.tela.getTabela());
 	}
 
@@ -74,37 +77,32 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 
 		if (evento.getSource().equals(this.tela.getBAbrir()))
 			this.CriarPDF();
-		
+
 		if (evento.getSource().equals(this.tela.getBGerar()))
 			this.BuscarDados();
 	}
 
 	private void BuscarDados() {
 		AtendimentoFiltro filtro = new AtendimentoFiltro();
-		
+
 		try {
 			filtro.setDatainicial(this.tela.getDatainicial().getDate());
 			filtro.setDatafinal(this.tela.getDatafinal().getDate());
-			
-			if(this.tela.getCheckconvenio().isSelected()) 
+
+			if (this.tela.getCheckconvenio().isSelected())
 				filtro.setConvenio(this.tela.getComboconvenio().getSelectedItem() + "");
 			else
 				filtro.setConvenio("");
-			
-			if(this.tela.getCheckhospital().isSelected())
+
+			if (this.tela.getCheckhospital().isSelected())
 				filtro.setHospital(this.tela.getCombohospital().getSelectedItem() + "");
 			else
 				filtro.setHospital("");
-			
-			if(this.tela.getCheckmedico().isSelected())
+
+			if (this.tela.getCheckmedico().isSelected())
 				filtro.setMedico(this.tela.getCombomedico().getSelectedItem() + "");
 			else
 				filtro.setMedico("");
-			
-			if(this.tela.getCheckprocedimento().isSelected())
-				filtro.setProcedimento(this.tela.getComboprocedimento().getSelectedItem() + "");
-			else
-				filtro.setProcedimento("");
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Verificar Datas estao selecionadas");
 		}
@@ -113,129 +111,115 @@ public class RelatorioGeralListener implements ActionListener, ItemListener {
 		List<Atendimento> lista = service.ListarAtendGeral(filtro);
 		this.TabelaDeAtendimentos(lista);
 	}
-	
+
 	private void CriarPDF() {
 		AtendimentoFiltro filtro = new AtendimentoFiltro();
-		
+
 		try {
 			filtro.setDatainicial(this.tela.getDatainicial().getDate());
 			filtro.setDatafinal(this.tela.getDatafinal().getDate());
-			
-			if(this.tela.getCheckconvenio().isSelected()) 
+
+			if (this.tela.getCheckconvenio().isSelected())
 				filtro.setConvenio(this.tela.getComboconvenio().getSelectedItem() + "");
 			else
 				filtro.setConvenio("");
-			
-			if(this.tela.getCheckhospital().isSelected())
+
+			if (this.tela.getCheckhospital().isSelected())
 				filtro.setHospital(this.tela.getCombohospital().getSelectedItem() + "");
 			else
 				filtro.setHospital("");
-			
-			if(this.tela.getCheckmedico().isSelected())
+
+			if (this.tela.getCheckmedico().isSelected())
 				filtro.setMedico(this.tela.getCombomedico().getSelectedItem() + "");
 			else
 				filtro.setMedico("");
-			
-			if(this.tela.getCheckprocedimento().isSelected())
-				filtro.setProcedimento(this.tela.getComboprocedimento().getSelectedItem() + "");
-			else
-				filtro.setProcedimento("");
-			
+
+	
 			RelatorioGeral rel = new RelatorioGeral();
 			rel.RelatorioPorPessoa(filtro);
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Verificar Datas estao selecionadas");
-		}		
+		}
 	}
 
 	@SuppressWarnings("serial")
 	private void TeclaEsc() {
 		JRootPane meurootpane = this.tela.getRootPane();
-		meurootpane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "ESCAPE");
+		meurootpane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+				"ESCAPE");
 		meurootpane.getRootPane().getActionMap().put("ESCAPE", new AbstractAction("ESCAPE") {
 			public void actionPerformed(ActionEvent e) {
 				tela.dispose();
 			}
 		});
 	}
-	
-	private void UsandoTAB(){
+
+	private void UsandoTAB() {
 		this.tela.getRootPane().setDefaultButton(this.tela.getBGerar());
-		this.tela.getBGerar().addKeyListener(new KeyAdapter() {  
-            public void keyPressed(KeyEvent e) {  
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {  
-                	tela.getBGerar().doClick();
-                }  
-            }  
-        });
-		
-		this.tela.getBSair().addKeyListener(new KeyAdapter() {  
-            public void keyPressed(KeyEvent e) {  
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {  
-                	tela.getBSair().doClick();  
-                }  
-            }  
-        });
-		
-		this.tela.getBAbrir().addKeyListener(new KeyAdapter() {  
-            public void keyPressed(KeyEvent e) {  
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {  
-                	tela.getBAbrir().doClick();  
-                }  
-            }  
-        });
+		this.tela.getBGerar().addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					tela.getBGerar().doClick();
+				}
+			}
+		});
+
+		this.tela.getBSair().addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					tela.getBSair().doClick();
+				}
+			}
+		});
+
+		this.tela.getBAbrir().addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					tela.getBAbrir().doClick();
+				}
+			}
+		});
 	}
-	
+
 	@Override
 	public void itemStateChanged(ItemEvent evento) {
-		if(this.tela.getCheckconvenio().isSelected()) 
+		if (this.tela.getCheckconvenio().isSelected())
 			this.tela.getComboconvenio().setEnabled(true);
-		else 
+		else
 			this.tela.getComboconvenio().setEnabled(false);
-		
-		
-		if(this.tela.getCheckhospital().isSelected()) 
+
+		if (this.tela.getCheckhospital().isSelected())
 			this.tela.getCombohospital().setEnabled(true);
 		else
 			this.tela.getCombohospital().setEnabled(false);
-		
-		if(this.tela.getCheckmedico().isSelected())
+
+		if (this.tela.getCheckmedico().isSelected())
 			this.tela.getCombomedico().setEnabled(true);
 		else
 			this.tela.getCombomedico().setEnabled(false);
-		
-		if(this.tela.getCheckprocedimento().isSelected())
-			this.tela.getComboprocedimento().setEnabled(true);
-		else
-			this.tela.getComboprocedimento().setEnabled(false);
-		
+
+
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void BuscarHospital() {
 		HospitalService service = new HospitalService();
 		List<String> lista = service.ListarSoNomes();
 		this.tela.getCombohospital().setModel(new DefaultComboBoxModel(new Vector(lista)));
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void BuscarConvenio() {
 		ConvenioService service = new ConvenioService();
 		List<String> lista = service.ListarSoNomes();
 		this.tela.getComboconvenio().setModel(new DefaultComboBoxModel(new Vector(lista)));
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void BuscarMedico() {
 		MedicoService service = new MedicoService();
 		List<String> lista = service.ListarSoNomes();
 		this.tela.getCombomedico().setModel(new DefaultComboBoxModel(new Vector(lista)));
 	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void BuscarProcedimento() {
-		ProcedimentoService service = new ProcedimentoService();
-		List<String> lista = service.ListarSoNomes();
-		this.tela.getComboprocedimento().setModel(new DefaultComboBoxModel(new Vector(lista)));
-	}
+
 }

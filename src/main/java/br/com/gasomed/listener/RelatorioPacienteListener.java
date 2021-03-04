@@ -11,7 +11,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import br.com.gasomed.janela.RelatorioPacienteDialog;
 import br.com.gasomed.modelo.Atendimento;
@@ -38,15 +39,20 @@ public class RelatorioPacienteListener implements ActionListener {
 	}
 
 	private void TabelaDeAtendimentos(List<Atendimento> lista) {
+		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		tabela = new Atendimentotabela(lista);
 		this.tela.getTabela().setModel(tabela);
-		this.tela.getTabela().getColumnModel().getColumn(0).setPreferredWidth(10);
+		this.tela.getTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
 		this.tela.getTabela().getColumnModel().getColumn(1).setPreferredWidth(210);
-		this.tela.getTabela().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		this.tela.getTabela().getColumnModel().getColumn(0).setCellRenderer(centralizado);
+		this.tela.getTabela().getColumnModel().getColumn(4).setCellRenderer(centralizado);
+		this.tela.getTabela().getColumnModel().getColumn(5).setCellRenderer(centralizado);
+		this.tela.getTabela().getColumnModel().getColumn(6).setCellRenderer(centralizado);
+		this.tela.getTabela().getColumnModel().getColumn(7).setCellRenderer(centralizado);
 
-		//this.tela.getTabela().changeSelection(0, 0, false, false);
-		// this.gerenciamento.getTable().setRowSelectionInterval(0, 0);
-		this.tela.getTabela().setFocusable(false);
 		this.tela.getScrollpane().setViewportView(this.tela.getTabela());
 	}
 

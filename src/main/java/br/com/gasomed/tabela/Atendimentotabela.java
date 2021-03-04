@@ -8,21 +8,21 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import br.com.gasomed.modelo.Atendimento;
+import br.com.gasomed.util.ListasUtil;
 
 public class Atendimentotabela extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	
-	private String[] colunas = new String[] { "ID", "NOME", "HOSPITAL", "MEDICO", "CONVENIO", "PROCEDIMENTO", "LEITO", "DATA", "HORA" };
+	private String[] colunas = new String[] { "ID", "NOME", "HOSPITAL", "MEDICO", "CONVENIO", "LEITO", "DATA", "HORA" };
 	private List<Atendimento> linhas;
 	private static final int ID = 0;
 	private static final int NOME = 1;
 	private static final int HOSPITAL = 2;
 	private static final int MEDICO = 3;
 	private static final int CONVENIO = 4;
-	private static final int PROCEDIMENTO = 5;
-	private static final int LEITO = 6;
-	private static final int DATA = 7;
-	private static final int HORA = 8;
+	private static final int LEITO = 5;
+	private static final int DATA = 6;
+	private static final int HORA = 7;
     
     public Atendimentotabela() {
         linhas = new ArrayList<Atendimento>();
@@ -55,14 +55,12 @@ public class Atendimentotabela extends AbstractTableModel{
             return String.class;
         case CONVENIO:
             return String.class;
-        case PROCEDIMENTO:
-        	return String.class;
         case LEITO:
             return String.class;
         case DATA:
-            return Date.class;
+            return String.class;
         case HORA:
-            return Time.class;
+            return String.class;
         default:
             throw new IndexOutOfBoundsException("coluna fora dos limites");
         }
@@ -88,14 +86,12 @@ public class Atendimentotabela extends AbstractTableModel{
         	return dados.getMedico();
         case CONVENIO:
         	return dados.getConvenio();
-        case PROCEDIMENTO:
-        	return dados.getProcedimento();
         case LEITO:
         	return dados.getLeito();
         case DATA:
-        	return dados.getData();
+        	return ListasUtil.TransformaDataEmString(dados.getData());
         case HORA:
-        	return dados.getHora();
+        	return ListasUtil.TransformaHoraEmString(dados.getHora());
         default: 
             throw new IndexOutOfBoundsException("Coluna fora dos limites");
         }
@@ -137,9 +133,6 @@ public class Atendimentotabela extends AbstractTableModel{
             break;
         case CONVENIO:
         	dados.setConvenio((String) valor);
-            break;
-        case PROCEDIMENTO:
-        	dados.setProcedimento((String) valor);
             break;
         case LEITO:
         	dados.setLeito((String) valor);

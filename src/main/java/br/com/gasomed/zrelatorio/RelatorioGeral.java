@@ -29,7 +29,6 @@ public class RelatorioGeral {
 		parametros.put("datafini", filtro.getDatafinal());	
 		parametros.put("hosp",filtro.getHospital() + "");
 		parametros.put("conv", filtro.getConvenio() + "");
-		parametros.put("procedim", filtro.getProcedimento() + "");
 		parametros.put("medic", filtro.getMedico() + "");	
 		parametros.put("SUBREPORT_DIR", "jaspter//");
 		

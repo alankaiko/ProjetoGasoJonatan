@@ -15,9 +15,6 @@
 	<parameter name="conv" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="procedim" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="medic" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -29,8 +26,7 @@
      atendimento.`hospital` AS hospital,
      atendimento.`convenio` AS convenio,
      atendimento.`medico` AS medico,
-     atendimento.`data` AS data,
-     atendimento.`procedimento` AS procedimento
+     atendimento.`data` AS data
 FROM
      `atendimento` atendimento
 WHERE
@@ -38,9 +34,8 @@ WHERE
  AND (convenio LIKE '%$P!{conv}%')
  AND (hospital LIKE '%$P!{hosp}%')
  AND (medico LIKE '%$P!{medic}%')
- AND (procedimento LIKE '%$P!{procedim}%')
 GROUP BY
-     hospital, convenio, procedimento, nome;]]>
+     hospital, convenio, nome;]]>
 	</queryString>
 	<field name="quantidade" class="java.lang.Long"/>
 	<field name="id" class="java.lang.Integer">
@@ -59,9 +54,6 @@ GROUP BY
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="data" class="java.sql.Date">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="procedimento" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<variable name="total" class="java.lang.Long" resetType="Column" calculation="Sum">
@@ -85,7 +77,7 @@ GROUP BY
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[PROCEDIMENTO]]></text>
+				<text><![CDATA[CONVÊNIO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="244" height="20" backcolor="#CCCCCC" uuid="2967e40e-d35d-4065-9d67-6d5191cc3b4d"/>
@@ -173,7 +165,7 @@ GROUP BY
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{procedimento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{convenio}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="494" y="0" width="59" height="20" uuid="e1f361fd-198e-46a5-8481-4f544ad366fb"/>

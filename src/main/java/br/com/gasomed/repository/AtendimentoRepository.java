@@ -328,7 +328,7 @@ public class AtendimentoRepository {
 	public List<Atendimento> BuscarRelatorioGeral(AtendimentoFiltro filtro) throws Exception {
 		int cont = 3;
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, nome, hospital, medico, convenio, procedimento, leito, data, hora ");
+		sql.append("SELECT id, nome, hospital, medico, convenio, leito, data, hora ");
 		sql.append("FROM atendimento ");
 		sql.append("WHERE (data BETWEEN ? AND ?) ");
 
@@ -341,9 +341,6 @@ public class AtendimentoRepository {
 		if(filtro.getMedico() != "") 
 			sql.append("AND medico = ? ");
 		
-		if(filtro.getProcedimento() != "") 
-			sql.append("AND procedimento = ? ");
-
 		List<Atendimento> lista = new ArrayList<Atendimento>();
 		Connection con = ConexaoFactory.RetornaConexao();
 		PreparedStatement pre = con.prepareStatement(sql.toString());
@@ -369,11 +366,6 @@ public class AtendimentoRepository {
 			cont++;
 		}
 		
-		if(filtro.getProcedimento() != "") {
-			pre.setString(cont, filtro.getProcedimento());
-			cont++;
-		}
-
 		ResultSet resultado = pre.executeQuery();
 
 		while(resultado.next()) {
@@ -383,7 +375,6 @@ public class AtendimentoRepository {
 			atendimento.setHospital(resultado.getString("hospital"));
 			atendimento.setMedico(resultado.getString("medico"));
 			atendimento.setConvenio(resultado.getString("convenio"));
-			atendimento.setProcedimento(resultado.getString("procedimento"));
 			atendimento.setLeito(resultado.getString("leito"));
 			atendimento.setData(resultado.getDate("data"));
 			atendimento.setHora(resultado.getTime("hora"));

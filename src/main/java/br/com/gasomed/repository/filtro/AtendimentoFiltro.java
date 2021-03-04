@@ -6,7 +6,6 @@ public class AtendimentoFiltro {
 	private String hospital;
 	private String medico;
 	private String convenio;
-	private String procedimento;
 	private Date datainicial;
 	private Date datafinal;
 
@@ -34,14 +33,6 @@ public class AtendimentoFiltro {
 		this.convenio = convenio;
 	}
 
-	public String getProcedimento() {
-		return procedimento;
-	}
-
-	public void setProcedimento(String procedimento) {
-		this.procedimento = procedimento;
-	}
-
 	public Date getDatainicial() {
 		return datainicial;
 	}
@@ -61,7 +52,7 @@ public class AtendimentoFiltro {
 	@Override
 	public String toString() {
 		return "AtendimentoFiltro [hospital=" + hospital + ", medico=" + medico + ", convenio=" + convenio
-				+ ", procedimento=" + procedimento + ", datainicial=" + datainicial + ", datafinal=" + datafinal + "]";
+				+  ", datainicial=" + datainicial + ", datafinal=" + datafinal + "]";
 	}
 	
 	

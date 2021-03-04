@@ -33,7 +33,7 @@ public class TelaPrincipalJanela extends JFrame {
 	private JLabel LStatusHora, LStatusData, LAdministracao;
 	private JMenuBar menu;
 	private JMenu cadastromenu, relatoriomenu;
-	private JMenuItem geralrelatorio, pacienterelatorio, atendimentoitem, profissionalitem, hopitalitem, convenioitem, procedimentoitem;
+	private JMenuItem geralrelatorio, pacienterelatorio, atendimentoitem, profissionalitem, hopitalitem, convenioitem;
 
 	public TelaPrincipalJanela() {
 		this.MontarTelaPadrao();
@@ -76,10 +76,6 @@ public class TelaPrincipalJanela extends JFrame {
 		this.hopitalitem = new JMenuItem("Hospital");
 		this.hopitalitem.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.cadastromenu.add(hopitalitem);
-		
-		this.procedimentoitem = new JMenuItem("Procedimento");
-		this.procedimentoitem.setFont(new Font("Dialog", Font.PLAIN, 12));
-		this.cadastromenu.add(procedimentoitem);
 		
 		this.relatoriomenu = new JMenu("RELATORIO");
 		this.relatoriomenu.setFont(new Font("Dialog", Font.PLAIN, 13));
@@ -216,11 +212,4 @@ public class TelaPrincipalJanela extends JFrame {
 		this.painelcentral = painelcentral;
 	}
 	
-	public JMenuItem getProcedimentoitem() {
-		return procedimentoitem;
-	}
-	
-	public void setProcedimentoitem(JMenuItem procedimentoitem) {
-		this.procedimentoitem = procedimentoitem;
-	}
 }

@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import br.com.gasomed.listener.RelatorioGeralListener;
+import java.awt.Color;
 
 public class RelatorioGeralDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -26,8 +27,8 @@ public class RelatorioGeralDialog extends JDialog {
 	private JLabel LInicial, LFinal;
 	private JScrollPane scrollpane;
 	private JDateChooser datainicial, datafinal;
-	private JCheckBox checkhospital, checkconvenio, checkmedico, checkprocedimento;
-	private JComboBox<String> combohospital, comboconvenio, combomedico, comboprocedimento;
+	private JCheckBox checkhospital, checkconvenio, checkmedico;
+	private JComboBox<String> combohospital, comboconvenio, combomedico;
 	private JTable tabela;
 	private JButton BSair, BAbrir, BGerar, BImprimir;
 	
@@ -74,7 +75,7 @@ public class RelatorioGeralDialog extends JDialog {
 		BGerar = new JButton();
 		BGerar.setText("GERAR");
 		BGerar.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		BGerar.setBounds(747, 28, 130, 48);
+		BGerar.setBounds(747, 35, 130, 48);
 		painel.add(BGerar);
 		
 		LInicial = new JLabel("Data Inicial:");
@@ -112,40 +113,33 @@ public class RelatorioGeralDialog extends JDialog {
 		checkhospital.setBounds(10, 12, 120, 23);
 		painel.add(checkhospital);
 		
-		checkconvenio = new JCheckBox("Convênio:");
+		checkconvenio = new JCheckBox("Convenio:");
 		checkconvenio.setFont(new Font("Dialog", Font.BOLD, 13));
-		checkconvenio.setBounds(394, 12, 90, 23);
+		checkconvenio.setBounds(270, 12, 90, 23);
 		painel.add(checkconvenio);
 		
-		checkmedico = new JCheckBox("Médico:");
+		checkmedico = new JCheckBox("Medico:");
 		checkmedico.setFont(new Font("Dialog", Font.BOLD, 13));
-		checkmedico.setBounds(394, 38, 90, 23);
+		checkmedico.setBounds(490, 12, 90, 23);
 		painel.add(checkmedico);
 		
 		combohospital = new JComboBox<String>();
-		combohospital.setBounds(134, 12, 250, 20);
+		combohospital.setBackground(Color.WHITE);
+		combohospital.setBounds(10, 37, 250, 20);
 		combohospital.setEnabled(false);
 		painel.add(combohospital);
 		
 		comboconvenio = new JComboBox<String>();
-		comboconvenio.setBounds(489, 12, 250, 20);
+		comboconvenio.setBackground(Color.WHITE);
+		comboconvenio.setBounds(270, 37, 197, 20);
 		comboconvenio.setEnabled(false);
 		painel.add(comboconvenio);
 		
 		combomedico = new JComboBox<String>();
-		combomedico.setBounds(489, 38, 250, 20);
+		combomedico.setBackground(Color.WHITE);
+		combomedico.setBounds(489, 37, 250, 20);
 		combomedico.setEnabled(false);
 		painel.add(combomedico);
-		
-		checkprocedimento = new JCheckBox("Procedimento:");
-		checkprocedimento.setFont(new Font("Dialog", Font.BOLD, 13));
-		checkprocedimento.setBounds(10, 38, 120, 23);
-		painel.add(checkprocedimento);
-		
-		comboprocedimento = new JComboBox<String>();
-		comboprocedimento.setEnabled(false);
-		comboprocedimento.setBounds(134, 38, 250, 20);
-		painel.add(comboprocedimento);
 		
 	}
 
@@ -265,19 +259,4 @@ public class RelatorioGeralDialog extends JDialog {
 		this.combomedico = combomedico;
 	}
 	
-	public JCheckBox getCheckprocedimento() {
-		return checkprocedimento;
-	}
-	
-	public void setCheckprocedimento(JCheckBox checkprocedimento) {
-		this.checkprocedimento = checkprocedimento;
-	}
-	
-	public JComboBox<String> getComboprocedimento() {
-		return comboprocedimento;
-	}
-	
-	public void setComboprocedimento(JComboBox<String> comboprocedimento) {
-		this.comboprocedimento = comboprocedimento;
-	}
 }

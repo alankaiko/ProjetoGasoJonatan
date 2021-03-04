@@ -18,9 +18,6 @@
 	<parameter name="conv" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="procedim" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="medic" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -31,8 +28,7 @@
      atendimento.`hospital` AS hospital,
      atendimento.`convenio` AS convenio,
      atendimento.`medico` AS medico,
-     atendimento.`data` AS data,
-     atendimento.`procedimento` AS procedimento
+     atendimento.`data` AS data
 FROM
      `atendimento` atendimento
 WHERE
@@ -40,9 +36,8 @@ WHERE
  AND (convenio LIKE '%$P!{conv}%')
  AND (hospital LIKE '%$P!{hosp}%')
  AND (medico LIKE '%$P!{medic}%')
- AND (procedimento LIKE '%$P!{procedim}%')
 GROUP BY
-     hospital, convenio, procedimento;]]>
+     hospital, convenio;]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -60,9 +55,6 @@ GROUP BY
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="data" class="java.sql.Date">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="procedimento" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -110,14 +102,11 @@ GROUP BY
 				<subreportParameter name="datafini">
 					<subreportParameterExpression><![CDATA[$P{datafini}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="procedim">
-					<subreportParameterExpression><![CDATA[$F{procedimento}]]></subreportParameterExpression>
+				<subreportParameter name="hosp">
+					<subreportParameterExpression><![CDATA[$F{hospital}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="medic">
 					<subreportParameterExpression><![CDATA[$F{medico}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="hosp">
-					<subreportParameterExpression><![CDATA[$F{hospital}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "porconvenio.jasper"]]></subreportExpression>

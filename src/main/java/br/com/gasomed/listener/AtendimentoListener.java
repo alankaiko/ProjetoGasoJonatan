@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,12 +21,10 @@ import br.com.gasomed.modelo.Atendimento;
 import br.com.gasomed.modelo.Convenio;
 import br.com.gasomed.modelo.Hospital;
 import br.com.gasomed.modelo.Medico;
-import br.com.gasomed.modelo.Procedimento;
 import br.com.gasomed.service.AtendimentoService;
 import br.com.gasomed.service.ConvenioService;
 import br.com.gasomed.service.HospitalService;
 import br.com.gasomed.service.MedicoService;
-import br.com.gasomed.service.ProcedimentoService;
 import br.com.gasomed.util.MensagemPainelUtil;
 import br.com.gasomed.zrelatorio.RelatorioAtendimento;
 
@@ -43,7 +40,6 @@ public class AtendimentoListener implements ActionListener {
 		this.CarregarConvenios();
 		this.CarregarHospitais();
 		this.CarregarMedicos();
-		this.CarregarProcedimentos();
 	}
 
 	private void AdicionaListener() {
@@ -80,10 +76,10 @@ public class AtendimentoListener implements ActionListener {
 		atendimento.setHospital((String) this.tela.getCombohospital().getSelectedItem());
 		atendimento.setMedico((String) this.tela.getCombomedico().getSelectedItem());
 		atendimento.setConvenio((String) this.tela.getComboconvenio().getSelectedItem());
-		atendimento.setProcedimento((String) this.tela.getComboprocedimento().getSelectedItem());
 		atendimento.setLeito(this.tela.getTLeito().getText());
-		atendimento.setData(new Date(System.currentTimeMillis()));
+		atendimento.setData(new java.sql.Date(this.tela.getDatacad().getDate().getTime()));
 		atendimento.setHora(new Time(System.currentTimeMillis()));
+		atendimento.setProcedimento(this.tela.getCombonatureza().getSelectedItem().toString());
 		atendimento.setPh(this.tela.getTPh().getText());
 		atendimento.setPo(this.tela.getTPo2().getText());
 		atendimento.setPco(this.tela.getTPco2().getText());
@@ -197,14 +193,4 @@ public class AtendimentoListener implements ActionListener {
 		this.tela.getCombohospital().setModel(new DefaultComboBoxModel(new Vector(lista)));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void CarregarProcedimentos() {
-		ProcedimentoService service = new ProcedimentoService();
-		List<String> lista = new ArrayList<String>();
-		
-		for(Procedimento procedimento : service.ListandoProcedimento()) {
-			lista.add(procedimento.getNome());
-		}
-		this.tela.getComboprocedimento().setModel(new DefaultComboBoxModel(new Vector(lista)));
-	}
 }
