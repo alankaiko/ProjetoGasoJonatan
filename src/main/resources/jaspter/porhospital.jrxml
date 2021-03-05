@@ -83,7 +83,7 @@ GROUP BY
 	<detail>
 		<band height="40" splitType="Stretch">
 			<textField>
-				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="267" height="20" uuid="51dea093-5718-4a44-88ef-3202a22bbedf"/>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="249" height="20" uuid="51dea093-5718-4a44-88ef-3202a22bbedf"/>
 				<textElement verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>

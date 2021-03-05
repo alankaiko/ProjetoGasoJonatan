@@ -68,7 +68,7 @@ GROUP BY
 			<textField>
 				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="250" height="20" uuid="4bf94121-d643-4ba2-9200-d0b8ce360efb"/>
 				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{convenio}]]></textFieldExpression>
 			</textField>
