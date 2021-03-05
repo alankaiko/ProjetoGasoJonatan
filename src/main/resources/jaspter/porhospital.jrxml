@@ -57,6 +57,7 @@ GROUP BY
 	<field name="data" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<variable name="variavel" class="java.lang.Integer" incrementType="Column" calculation="Sum"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -109,8 +110,27 @@ GROUP BY
 					<subreportParameterExpression><![CDATA[$F{medico}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="nevasca" toVariable="variavel" calculation="Sum"/>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "porconvenio.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
+	<lastPageFooter>
+		<band height="21">
+			<textField>
+				<reportElement mode="Opaque" x="480" y="0" width="75" height="20" backcolor="#CCCCCC" uuid="69e05039-8efe-4231-b43a-213eec617df1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variavel}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="410" y="0" width="70" height="20" backcolor="#CCCCCC" uuid="3e6a00b4-e8d9-4a5a-a197-988836f7e335"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Geral:]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
 </jasperReport>

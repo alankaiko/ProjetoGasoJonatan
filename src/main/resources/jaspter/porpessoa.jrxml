@@ -58,7 +58,7 @@ GROUP BY
 	</field>
 	<variable name="total" class="java.lang.Long" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{quantidade}]]></variableExpression>
-		<initialValueExpression><![CDATA[]]></initialValueExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>

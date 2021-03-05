@@ -57,13 +57,16 @@ GROUP BY
 	<field name="data" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<variable name="nevasca" class="java.lang.Long" calculation="Sum">
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
 		<band height="40" splitType="Stretch">
 			<textField>
-				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="274" height="20" uuid="4bf94121-d643-4ba2-9200-d0b8ce360efb"/>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="250" height="20" uuid="4bf94121-d643-4ba2-9200-d0b8ce360efb"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -90,6 +93,7 @@ GROUP BY
 					<subreportParameterExpression><![CDATA[$F{hospital}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="total" toVariable="nevasca"/>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "porpessoa.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
