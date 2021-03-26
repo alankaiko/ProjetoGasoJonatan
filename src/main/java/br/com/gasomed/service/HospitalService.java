@@ -16,7 +16,7 @@ public class HospitalService {
 				MensagemPainelUtil.Sucesso("HOSPITAL CADASTRADO COM SUCESSO");
 			} else {
 				this.repositorio.Editar(hospital);
-				MensagemPainelUtil.Sucesso("EDIÇÃO CONCLUÍDA");
+				MensagemPainelUtil.Sucesso("EDICAO CONCLUIDA");
 			}
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Salvar!! " + e.getMessage());
@@ -27,7 +27,7 @@ public class HospitalService {
 	public void Remover(Hospital hospital) {
 		try {
 			this.repositorio.Excluir(hospital);
-			MensagemPainelUtil.Sucesso("HOSPITAL EXCLUÍDO!!");
+			MensagemPainelUtil.Sucesso("HOSPITAL EXCLUIDO!!");
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Remover!! " + e.getMessage());
 		}

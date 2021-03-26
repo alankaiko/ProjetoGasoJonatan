@@ -16,7 +16,7 @@ public class MedicoService {
 				MensagemPainelUtil.Sucesso("PROFISSIONAL CADASTRADO COM SUCESSO");
 			} else {
 				this.repositorio.Editar(medico);
-				MensagemPainelUtil.Sucesso("EDIÇÃO CONCLUÍDA");
+				MensagemPainelUtil.Sucesso("EDICAO CONCLUIDA");
 			}
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Salvar!! " + e.getMessage());
@@ -27,7 +27,7 @@ public class MedicoService {
 	public void Remover(Medico medico) {
 		try {
 			this.repositorio.Excluir(medico);
-			MensagemPainelUtil.Sucesso("PROFISSIONAL EXCLUÍDO!!");
+			MensagemPainelUtil.Sucesso("PROFISSIONAL EXCLUIDO!!");
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Remover!! " + e.getMessage());
 		}

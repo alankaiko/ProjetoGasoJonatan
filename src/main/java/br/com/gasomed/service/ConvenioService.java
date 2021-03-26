@@ -13,10 +13,10 @@ public class ConvenioService {
 		try {
 			if(convenio.getId() == null) {
 				this.repositorio.Salvar(convenio);
-				MensagemPainelUtil.Sucesso("CONVÊNIO CADASTRADO COM SUCESSO");
+				MensagemPainelUtil.Sucesso("CONVENIO CADASTRADO COM SUCESSO");
 			} else {
 				this.repositorio.Editar(convenio);
-				MensagemPainelUtil.Sucesso("EDIÇÃO CONCLUÍDA");
+				MensagemPainelUtil.Sucesso("EDICAO CONLCUIDA");
 			}
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Salvar!! " + e.getMessage());
@@ -27,7 +27,7 @@ public class ConvenioService {
 	public void Remover(Convenio convenio) {
 		try {
 			this.repositorio.Excluir(convenio);
-			MensagemPainelUtil.Sucesso("CONVÊNIO EXCLUÍDO!!");
+			MensagemPainelUtil.Sucesso("CONVENIO EXCLUIDO!!");
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Remover!! " + e.getMessage());
 		}

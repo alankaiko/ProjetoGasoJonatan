@@ -2,9 +2,12 @@ package br.com.gasomed.util;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.MaskFormatter;
 
 public class ListasUtil {
 
@@ -122,4 +125,20 @@ public class ListasUtil {
 
 		return lista;
 	}
+	
+	//Metodo que adiciona mascara ao campo de Cpf
+	public static MaskFormatter FormataHora(){
+		MaskFormatter mascara = null;
+		
+		try{
+			mascara = new MaskFormatter("##:##");
+			mascara.setValidCharacters("0123456789");
+		}
+		catch(ParseException excp){
+			
+		}
+		
+		return mascara;
+	}
+	
 }

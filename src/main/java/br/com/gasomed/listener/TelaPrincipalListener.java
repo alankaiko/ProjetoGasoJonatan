@@ -16,6 +16,7 @@ import br.com.gasomed.janela.ProfissionalDialog;
 import br.com.gasomed.janela.RelatorioGeralDialog;
 import br.com.gasomed.janela.RelatorioPacienteDialog;
 import br.com.gasomed.janela.TelaPrincipalJanela;
+import br.com.gasomed.janela.UsuarioDialog;
 
 public class TelaPrincipalListener implements ActionListener {
 	private TelaPrincipalJanela tela;
@@ -30,6 +31,7 @@ public class TelaPrincipalListener implements ActionListener {
 		this.tela.getConvenioitem().addActionListener(this);
 		this.tela.getHopitalitem().addActionListener(this);
 		this.tela.getProfissionalitem().addActionListener(this);	
+		this.tela.getUsuarioitem().addActionListener(this);
 		
 		this.tela.getGeralrelatorio().addActionListener(this);
 		this.tela.getPacienterelatorio().addActionListener(this);
@@ -49,6 +51,9 @@ public class TelaPrincipalListener implements ActionListener {
 		if(evento.getSource().equals(this.tela.getHopitalitem()))
 			this.AbreTelaHospital();
 		
+		if(evento.getSource().equals(this.tela.getUsuarioitem()))
+			this.AbreTelaUsuario();
+		
 		if(evento.getSource().equals(this.tela.getGeralrelatorio()))
 			this.AbreTelaGeralRelatorio();
 		
@@ -64,6 +69,12 @@ public class TelaPrincipalListener implements ActionListener {
 	
 	private void AbreTelaHospital(){
 		HospitalDialog tela = new HospitalDialog();
+		tela.setLocationRelativeTo(this.tela.getPainelcentral());
+		tela.setVisible(true);
+	}
+	
+	private void AbreTelaUsuario(){
+		UsuarioDialog tela = new UsuarioDialog();
 		tela.setLocationRelativeTo(this.tela.getPainelcentral());
 		tela.setVisible(true);
 	}

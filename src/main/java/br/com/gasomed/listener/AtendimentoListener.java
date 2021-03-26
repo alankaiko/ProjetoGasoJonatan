@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -31,6 +31,8 @@ import br.com.gasomed.zrelatorio.RelatorioAtendimento;
 public class AtendimentoListener implements ActionListener {
 	private AtendimentoDialog tela;
 	private Atendimento atendimento;
+	private int hora;
+	private int min;
 
 	public AtendimentoListener(AtendimentoDialog tela) {
 		this.tela = tela;
@@ -40,6 +42,7 @@ public class AtendimentoListener implements ActionListener {
 		this.CarregarConvenios();
 		this.CarregarHospitais();
 		this.CarregarMedicos();
+		this.CarregarHora();
 	}
 
 	private void AdicionaListener() {
@@ -49,11 +52,14 @@ public class AtendimentoListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evento) {
+		if(!this.ValidandoHorario())
+			return;
+		
 		if (evento.getSource().equals(this.tela.getBGravar()) && this.ValidandoField())
 			this.AdicionarValor();
 		else if (evento.getSource().equals(this.tela.getBSair()))
 			this.tela.dispose();
-		else
+		else 
 			MensagemPainelUtil.Erro("Preencha todos os campos!!");
 	}
 	
@@ -66,8 +72,7 @@ public class AtendimentoListener implements ActionListener {
 			this.CriarPDF(valor);
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Erro ao Salvar Atendimento");
-		}
-		
+		}		
 	}
 	
 	private Atendimento ReuneValorDosCampos() {
@@ -78,7 +83,6 @@ public class AtendimentoListener implements ActionListener {
 		atendimento.setConvenio((String) this.tela.getComboconvenio().getSelectedItem());
 		atendimento.setLeito(this.tela.getTLeito().getText());
 		atendimento.setData(new java.sql.Date(this.tela.getDatacad().getDate().getTime()));
-		atendimento.setHora(new Time(System.currentTimeMillis()));
 		atendimento.setProcedimento(this.tela.getCombonatureza().getSelectedItem().toString());
 		atendimento.setPh(this.tela.getTPh().getText());
 		atendimento.setPo(this.tela.getTPo2().getText());
@@ -90,6 +94,11 @@ public class AtendimentoListener implements ActionListener {
 		atendimento.setNa(this.tela.getTNa().getText());
 		atendimento.setK(this.tela.getTK().getText());
 		atendimento.setFile(atendimento.getNome() + "_" + Calendar.getInstance().getTimeInMillis() + ".pdf");
+		
+		java.sql.Time tempo = new java.sql.Time(new Date().getTime());
+		tempo.setHours(this.hora);
+		tempo.setMinutes(this.min);
+		atendimento.setHora(tempo);
 		
 		return atendimento;
 	}
@@ -147,6 +156,24 @@ public class AtendimentoListener implements ActionListener {
         });
 	}
 	
+	private boolean ValidandoHorario() {		
+		String[] texto = this.tela.getJhora().getText().split(":");
+
+		this.hora = Integer.parseInt(texto[0]);
+		this.min = Integer.parseInt(texto[1]);
+		
+		if(this.hora > 24) {
+			MensagemPainelUtil.Erro("Hora informado invalida!!!");
+			return false;
+		}
+		
+		if(this.min > 59) {
+			MensagemPainelUtil.Erro("Minuto informado invalido");
+			return false;
+		}
+		return true;
+	}
+	
 	private boolean ValidandoField(){
 		return !this.tela.getTNome().getText().isEmpty()
 				&& !this.tela.getTPh().getText().isEmpty()
@@ -154,10 +181,8 @@ public class AtendimentoListener implements ActionListener {
 				&& !this.tela.getTO2sat().getText().isEmpty()
 				&& !this.tela.getTPo2().getText().isEmpty()
 				&& !this.tela.getTCo2().getText().isEmpty()
-				&& !this.tela.getTNa().getText().isEmpty()
 				&& !this.tela.getTPco2().getText().isEmpty()
-				&& !this.tela.getTBe().getText().isEmpty()
-				&& !this.tela.getTK().getText().isEmpty();
+				&& !this.tela.getTBe().getText().isEmpty();
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -191,6 +216,14 @@ public class AtendimentoListener implements ActionListener {
 			lista.add(hospital.getNome());
 		}
 		this.tela.getCombohospital().setModel(new DefaultComboBoxModel(new Vector(lista)));
+	}
+	
+	private void CarregarHora() {
+		Date data = new Date();
+		this.hora = data.getHours();
+		this.min = data.getMinutes();
+		
+		this.tela.getJhora().setText(this.hora + ":" + this.min);
 	}
 
 }

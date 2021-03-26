@@ -3,45 +3,35 @@ package br.com.gasomed.janela;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.util.Date;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import com.toedter.calendar.JDateChooser;
-
-import br.com.gasomed.listener.AtendimentoListener;
-import br.com.gasomed.modelo.EnumNatureza;
+import br.com.gasomed.listener.ExcluirAtendimentoListener;
+import br.com.gasomed.modelo.Usuario;
 import br.com.gasomed.util.CampoMaiusculoUtil;
-import br.com.gasomed.util.ListasUtil;
 
-public class AtendimentoDialog extends JDialog {
+public class ExcluirAtendimentoDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private final JPanel painel = new JPanel();
 	private JLabel LNome, LHospital, LLeito, LConvenio, LMedico, LPh, LHco2, LO2sat, LPo2, LCo2, LNa, Lpco2, LBe, LK, LNatureza;
-	private JButton BGravar, BSair;
-	private JDateChooser datacad;
-	private JComboBox<String> combohospital, combomedico, comboconvenio, combonatureza;
+	private JButton BExcluir, BCancelar;
 	private JTextField TNome, TLeito, TPh, Thco2, TO2sat, TNa, TCo2, TPo2, TK, TBe, TPco2;
-	private JFormattedTextField jhora;
-	
-	@SuppressWarnings("unused")
-	private AtendimentoListener listener;
+	private JTextField THospital, TMedico, TNatureza, THora, TConvenio, TData;
+	private ExcluirAtendimentoListener listener;
 
-	public AtendimentoDialog() {
+	public ExcluirAtendimentoDialog(Long codigo, Usuario usuario) {
 		this.MontarDados();
 		this.MontarComponentes();
 		
-		this.listener = new AtendimentoListener(this);
+		this.listener = new ExcluirAtendimentoListener(this);
+		this.listener.EditarValor(codigo, usuario);
 	}
 	
 	private void MontarDados() {
@@ -55,9 +45,9 @@ public class AtendimentoDialog extends JDialog {
 		painel.setLayout(null);
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void MontarComponentes() {
 		TNome = new JTextField();
+		TNome.setEditable(false);
 		TNome.setDocument(new CampoMaiusculoUtil());
 		TNome.setBounds(80, 10, 550, 23);
 		painel.add(TNome);
@@ -76,6 +66,7 @@ public class AtendimentoDialog extends JDialog {
 		painel.add(LHospital);
 		
 		TLeito = new JTextField();
+		TLeito.setEditable(false);
 		TLeito.setDocument(new CampoMaiusculoUtil());
 		TLeito.setColumns(10);
 		TLeito.setBounds(80, 70, 265, 23);
@@ -87,26 +78,11 @@ public class AtendimentoDialog extends JDialog {
 		LLeito.setBounds(10, 75, 60, 14);
 		painel.add(LLeito);
 		
-		combohospital = new JComboBox<String>();
-		combohospital.setBackground(Color.WHITE);
-		combohospital.setBounds(80, 40, 265, 23);
-		painel.add(combohospital);
-		
 		LConvenio = new JLabel("Convenio:");
 		LConvenio.setHorizontalAlignment(SwingConstants.RIGHT);
 		LConvenio.setFont(new Font("Dialog", Font.BOLD, 13));
 		LConvenio.setBounds(361, 75, 75, 14);
 		painel.add(LConvenio);
-		 
-		combomedico = new JComboBox<String>();
-		combomedico.setBackground(Color.WHITE);
-		combomedico.setBounds(80, 105, 140, 23);
-		painel.add(combomedico);
-		
-		comboconvenio = new JComboBox<String>();
-		comboconvenio.setBackground(Color.WHITE);
-		comboconvenio.setBounds(446, 70, 184, 23);
-		painel.add(comboconvenio);
 		
 		LMedico = new JLabel("Medico:");
 		LMedico.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -121,12 +97,14 @@ public class AtendimentoDialog extends JDialog {
 		painel.add(LPh);
 		
 		TPh = new JTextField();
+		TPh.setEditable(false);
 		TPh.setDocument(new CampoMaiusculoUtil());
 		TPh.setColumns(10);
 		TPh.setBounds(80, 148, 140, 23);
 		painel.add(TPh);
 		
 		Thco2 = new JTextField();
+		Thco2.setEditable(false);
 		Thco2.setDocument(new CampoMaiusculoUtil());
 		Thco2.setColumns(10);
 		Thco2.setBounds(80, 178, 140, 23);
@@ -139,6 +117,7 @@ public class AtendimentoDialog extends JDialog {
 		painel.add(LHco2);
 		
 		TO2sat = new JTextField();
+		TO2sat.setEditable(false);
 		TO2sat.setDocument(new CampoMaiusculoUtil());
 		TO2sat.setColumns(10);
 		TO2sat.setBounds(80, 208, 140, 23);
@@ -151,18 +130,21 @@ public class AtendimentoDialog extends JDialog {
 		painel.add(LO2sat);
 		
 		TNa = new JTextField();
+		TNa.setEditable(false);
 		TNa.setDocument(new CampoMaiusculoUtil());
 		TNa.setColumns(10);
 		TNa.setBounds(275, 208, 140, 23);
 		painel.add(TNa);
 		
 		TCo2 = new JTextField();
+		TCo2.setEditable(false);
 		TCo2.setDocument(new CampoMaiusculoUtil());
 		TCo2.setColumns(10);
 		TCo2.setBounds(275, 178, 140, 23);
 		painel.add(TCo2);
 		
 		TPo2 = new JTextField();
+		TPo2.setEditable(false);
 		TPo2.setDocument(new CampoMaiusculoUtil());
 		TPo2.setColumns(10);
 		TPo2.setBounds(275, 148, 140, 23);
@@ -187,18 +169,21 @@ public class AtendimentoDialog extends JDialog {
 		painel.add(LNa);
 		
 		TK = new JTextField();
+		TK.setEditable(false);
 		TK.setDocument(new CampoMaiusculoUtil());
 		TK.setColumns(10);
 		TK.setBounds(490, 208, 140, 23);
 		painel.add(TK);
 		
 		TBe = new JTextField();
+		TBe.setEditable(false);
 		TBe.setDocument(new CampoMaiusculoUtil());
 		TBe.setColumns(10);
 		TBe.setBounds(490, 178, 140, 23);
 		painel.add(TBe);
 		
 		TPco2 = new JTextField();
+		TPco2.setEditable(false);
 		TPco2.setDocument(new CampoMaiusculoUtil());
 		TPco2.setColumns(10);
 		TPco2.setBounds(490, 148, 140, 23);
@@ -222,17 +207,18 @@ public class AtendimentoDialog extends JDialog {
 		LK.setBounds(430, 213, 50, 14);
 		painel.add(LK);
 		
-		BGravar = new JButton();
-		BGravar.setText("GRAVAR");
-		BGravar.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		BGravar.setBounds(555, 248, 75, 22);
-		painel.add(BGravar);
+		BExcluir = new JButton();
+		BExcluir.setBackground(new Color(255, 204, 153));
+		BExcluir.setText("EXCLUIR");
+		BExcluir.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		BExcluir.setBounds(555, 248, 75, 22);
+		painel.add(BExcluir);
 		
-		BSair = new JButton();
-		BSair.setText("SAIR");
-		BSair.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		BSair.setBounds(471, 248, 75, 22);
-		painel.add(BSair);
+		BCancelar = new JButton();
+		BCancelar.setText("Cancelar");
+		BCancelar.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		BCancelar.setBounds(471, 248, 75, 22);
+		painel.add(BCancelar);
 		
 		JLabel LData = new JLabel("Data:");
 		LData.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -240,74 +226,70 @@ public class AtendimentoDialog extends JDialog {
 		LData.setBounds(370, 45, 66, 14);
 		painel.add(LData);
 		
-		datacad = new JDateChooser(new Date());
-		datacad.setDateFormatString("EEEE - dd-MM-yyyy");
-		datacad.setBounds(446, 40, 184, 23);
-		painel.add(datacad);
-		
 		LNatureza = new JLabel("Nat. Exame:");
 		LNatureza.setHorizontalAlignment(SwingConstants.RIGHT);
 		LNatureza.setFont(new Font("Dialog", Font.BOLD, 13));
 		LNatureza.setBounds(230, 110, 85, 14);
 		painel.add(LNatureza);
 		
-		combonatureza = new JComboBox<String>();
-		combonatureza.setModel(new DefaultComboBoxModel(EnumNatureza.values()));
-		combonatureza.setBackground(Color.WHITE);
-		combonatureza.setBounds(325, 105, 118, 23);
-		painel.add(combonatureza);
-		
 		JLabel LHora = new JLabel("Hora:");
 		LHora.setHorizontalAlignment(SwingConstants.RIGHT);
 		LHora.setFont(new Font("Dialog", Font.BOLD, 13));
-		LHora.setBounds(446, 108, 50, 14);
+		LHora.setBounds(446, 110, 50, 14);
 		painel.add(LHora);
 		
-		jhora = new JFormattedTextField(ListasUtil.FormataHora());
-		jhora.setBounds(506, 105, 124, 23);
+		THospital = new JTextField();
+		THospital.setEditable(false);
+		THospital.setColumns(10);
+		THospital.setBounds(80, 40, 265, 23);
+		painel.add(THospital);
 		
-		painel.add(jhora);
+		TMedico = new JTextField();
+		TMedico.setEditable(false);
+		TMedico.setColumns(10);
+		TMedico.setBounds(80, 108, 140, 23);
+		painel.add(TMedico);
+		
+		TNatureza = new JTextField();
+		TNatureza.setEditable(false);
+		TNatureza.setColumns(10);
+		TNatureza.setBounds(318, 108, 124, 23);
+		painel.add(TNatureza);
+		
+		THora = new JTextField();
+		THora.setEditable(false);
+		THora.setColumns(10);
+		THora.setBounds(504, 108, 124, 23);
+		painel.add(THora);
+		
+		TConvenio = new JTextField();
+		TConvenio.setEditable(false);
+		TConvenio.setColumns(10);
+		TConvenio.setBounds(446, 71, 184, 23);
+		painel.add(TConvenio);
+		
+		TData = new JTextField();
+		TData.setEditable(false);
+		TData.setColumns(10);
+		TData.setBounds(446, 41, 184, 23);
+		painel.add(TData);
 
 	}
-
-	public JButton getBGravar() {
-		return BGravar;
+	
+	public JButton getBCancelar() {
+		return BCancelar;
 	}
-
-	public void setBGravar(JButton bGravar) {
-		BGravar = bGravar;
+	
+	public void setBCancelar(JButton bCancelar) {
+		BCancelar = bCancelar;
 	}
-
-	public JButton getBSair() {
-		return BSair;
+	
+	public JButton getBExcluir() {
+		return BExcluir;
 	}
-
-	public void setBSair(JButton bSair) {
-		BSair = bSair;
-	}
-
-	public JComboBox<String> getCombohospital() {
-		return combohospital;
-	}
-
-	public void setCombohospital(JComboBox<String> combohospital) {
-		this.combohospital = combohospital;
-	}
-
-	public JComboBox<String> getCombomedico() {
-		return combomedico;
-	}
-
-	public void setCombomedico(JComboBox<String> combomedico) {
-		this.combomedico = combomedico;
-	}
-
-	public JComboBox<String> getComboconvenio() {
-		return comboconvenio;
-	}
-
-	public void setComboconvenio(JComboBox<String> comboconvenio) {
-		this.comboconvenio = comboconvenio;
+	
+	public void setBExcluir(JButton bExcluir) {
+		BExcluir = bExcluir;
 	}
 
 	public JTextField getTNome() {
@@ -397,28 +379,54 @@ public class AtendimentoDialog extends JDialog {
 	public void setTPco2(JTextField tPco2) {
 		TPco2 = tPco2;
 	}
-	
-	public JDateChooser getDatacad() {
-		return datacad;
+
+	public JTextField getTHospital() {
+		return THospital;
+	}
+
+	public void setTHospital(JTextField tHospital) {
+		THospital = tHospital;
+	}
+
+	public JTextField getTMedico() {
+		return TMedico;
+	}
+
+	public void setTMedico(JTextField tMedico) {
+		TMedico = tMedico;
+	}
+
+	public JTextField getTNatureza() {
+		return TNatureza;
+	}
+
+	public void setTNatureza(JTextField tNatureza) {
+		TNatureza = tNatureza;
+	}
+
+	public JTextField getTHora() {
+		return THora;
+	}
+
+	public void setTHora(JTextField tHora) {
+		THora = tHora;
+	}
+
+	public JTextField getTConvenio() {
+		return TConvenio;
+	}
+
+	public void setTConvenio(JTextField tConvenio) {
+		TConvenio = tConvenio;
+	}
+
+	public JTextField getTData() {
+		return TData;
+	}
+
+	public void setTData(JTextField tData) {
+		TData = tData;
 	}
 	
-	public void setDatacad(JDateChooser datacad) {
-		this.datacad = datacad;
-	}
 	
-	public JComboBox<String> getCombonatureza() {
-		return combonatureza;
-	}
-	
-	public void setCombonatureza(JComboBox<String> combonatureza) {
-		this.combonatureza = combonatureza;
-	}
-	
-	public JFormattedTextField getJhora() {
-		return jhora;
-	}
-	
-	public void setJhora(JFormattedTextField jhora) {
-		this.jhora = jhora;
-	}
 }

@@ -14,6 +14,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import br.com.gasomed.janela.LoginDialog;
 import br.com.gasomed.janela.RelatorioPacienteDialog;
 import br.com.gasomed.modelo.Atendimento;
 import br.com.gasomed.service.AtendimentoService;
@@ -36,6 +37,7 @@ public class RelatorioPacienteListener implements ActionListener {
 		this.tela.getBAbrir().addActionListener(this);
 		this.tela.getBSair().addActionListener(this);
 		this.tela.getBGerar().addActionListener(this);
+		this.tela.getBExcluir().addActionListener(this);
 	}
 
 	private void TabelaDeAtendimentos(List<Atendimento> lista) {
@@ -52,7 +54,10 @@ public class RelatorioPacienteListener implements ActionListener {
 		this.tela.getTabela().getColumnModel().getColumn(5).setCellRenderer(centralizado);
 		this.tela.getTabela().getColumnModel().getColumn(6).setCellRenderer(centralizado);
 		this.tela.getTabela().getColumnModel().getColumn(7).setCellRenderer(centralizado);
-
+		
+		this.tela.getTabela().changeSelection(0, 0, false, false);
+		// this.gerenciamento.getTable().setRowSelectionInterval(0, 0);
+		this.tela.getTabela().setFocusable(false);
 		this.tela.getScrollpane().setViewportView(this.tela.getTabela());
 	}
 
@@ -64,7 +69,10 @@ public class RelatorioPacienteListener implements ActionListener {
 			this.GerarRelatorio();
 		else if (evento.getSource().equals(this.tela.getBSair()))
 			this.tela.dispose();
-		else
+		else if (evento.getSource().equals(this.tela.getBExcluir())) {
+			this.AbreTelaAtendimento(this.SelecionaLinha());
+			this.GerarRelatorio();
+		}else
 			MensagemPainelUtil.Erro("Informe o nome do paciente");
 	}
 
@@ -98,6 +106,22 @@ public class RelatorioPacienteListener implements ActionListener {
 		} catch (Exception e) {
 			MensagemPainelUtil.Erro("Verificar Datas estao selecionadas");
 		}		
+	}
+	
+	private Long SelecionaLinha(){
+		int linha = this.tela.getTabela().getSelectedRow();
+		Long id = (Long) this.tela.getTabela().getValueAt(linha,0);
+		
+		return id;
+	}
+	
+	private void AbreTelaAtendimento(Long codigo){
+		if(codigo != null) {
+			LoginDialog login = new LoginDialog(codigo);
+			login.setLocationRelativeTo(this.tela.getPainel());
+			login.setVisible(true);
+		}
+		
 	}
 
 	@SuppressWarnings("serial")

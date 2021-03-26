@@ -27,7 +27,7 @@ public class RelatorioPacienteDialog extends JDialog {
 	private JScrollPane scrollpane;
 	private JDateChooser datainicial, datafinal;
 	private JTable tabela;
-	private JButton BSair, BAbrir, BGerar, BImprimir;
+	private JButton BSair, BAbrir, BGerar, BImprimir, BExcluir;
 	
 	@SuppressWarnings("unused")
 	private RelatorioPacienteListener listener;	
@@ -113,6 +113,12 @@ public class RelatorioPacienteDialog extends JDialog {
 		BImprimir.setEnabled(false);
 		painel.add(BImprimir);
 		
+		BExcluir = new JButton();
+		BExcluir.setText("Excluir");
+		BExcluir.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		BExcluir.setBounds(135, 410, 75, 22);
+		painel.add(BExcluir);
+		
 	}
 
 	public JTextField getTNome() {
@@ -189,5 +195,17 @@ public class RelatorioPacienteDialog extends JDialog {
 	
 	public void setDatafinal(JDateChooser datafinal) {
 		this.datafinal = datafinal;
+	}
+	
+	public JButton getBExcluir() {
+		return BExcluir;
+	}
+	
+	public void setBExcluir(JButton bExcluir) {
+		BExcluir = bExcluir;
+	}
+	
+	public JPanel getPainel() {
+		return painel;
 	}
 }
