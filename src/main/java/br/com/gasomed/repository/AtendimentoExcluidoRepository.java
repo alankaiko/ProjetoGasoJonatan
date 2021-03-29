@@ -1,9 +1,12 @@
 package br.com.gasomed.repository;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.gasomed.modelo.AtendimentoExcluido;
 import br.com.gasomed.util.ConexaoFactory;
@@ -51,5 +54,35 @@ public class AtendimentoExcluidoRepository {
 		conexao.close();
 		
 		return valor;
+	}
+	
+	public List<AtendimentoExcluido> BuscarRelatorioExcluidos(Date datainicial, Date datafinal) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * ");
+		sql.append("FROM atendimentoexcluido ");
+		sql.append("WHERE (data BETWEEN ? AND ?) ");
+
+		List<AtendimentoExcluido> lista = new ArrayList<AtendimentoExcluido>();
+
+		Connection con = ConexaoFactory.RetornaConexao();
+		PreparedStatement pre = con.prepareStatement(sql.toString());
+		pre.setDate(1, datainicial);
+		pre.setDate(2, datafinal);
+
+		ResultSet resultado = pre.executeQuery();
+
+		while(resultado.next()) {
+			AtendimentoExcluido atendimento = new AtendimentoExcluido();
+			atendimento.setId(resultado.getLong("id"));
+			atendimento.setNome(resultado.getString("nome"));
+			atendimento.setLogin(resultado.getString("login"));
+			atendimento.setData(resultado.getDate("data"));
+			atendimento.setHora(resultado.getTime("hora"));
+			atendimento.setDataexclusao(resultado.getDate("dataexclusao"));
+			atendimento.setHoraexclusao(resultado.getTime("horaexclusao"));
+			lista.add(atendimento);
+		}
+
+		return lista;
 	}
 }

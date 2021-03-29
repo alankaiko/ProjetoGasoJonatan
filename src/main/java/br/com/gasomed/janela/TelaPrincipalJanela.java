@@ -33,7 +33,8 @@ public class TelaPrincipalJanela extends JFrame {
 	private JLabel LStatusHora, LStatusData, LAdministracao;
 	private JMenuBar menu;
 	private JMenu cadastromenu, relatoriomenu;
-	private JMenuItem geralrelatorio, pacienterelatorio, atendimentoitem, profissionalitem, hopitalitem, convenioitem, usuarioitem;
+	private JMenuItem geralrelatorio, pacienterelatorio, atendimentoitem, excluidorelatorio;
+	private JMenuItem profissionalitem, hopitalitem, convenioitem, usuarioitem;
 
 	public TelaPrincipalJanela() {
 		this.MontarTelaPadrao();
@@ -88,6 +89,10 @@ public class TelaPrincipalJanela extends JFrame {
 		this.geralrelatorio = new JMenuItem("Geral");
 		this.geralrelatorio.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.relatoriomenu.add(geralrelatorio);
+		
+		this.excluidorelatorio = new JMenuItem("Excluidos");
+		this.excluidorelatorio.setFont(new Font("Dialog", Font.PLAIN, 12));
+		this.relatoriomenu.add(excluidorelatorio);
 		
 		this.pacienterelatorio = new JMenuItem("Paciente");
 		pacienterelatorio.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -222,5 +227,13 @@ public class TelaPrincipalJanela extends JFrame {
 	
 	public void setUsuarioitem(JMenuItem usuarioitem) {
 		this.usuarioitem = usuarioitem;
+	}
+	
+	public JMenuItem getExcluidorelatorio() {
+		return excluidorelatorio;
+	}
+	
+	public void setExcluidorelatorio(JMenuItem excluidorelatorio) {
+		this.excluidorelatorio = excluidorelatorio;
 	}
 }

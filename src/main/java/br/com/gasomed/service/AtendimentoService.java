@@ -74,7 +74,7 @@ public class AtendimentoService {
 		try {
 			return this.repositorio.BuscarRelPorPaciente(nome, new java.sql.Date(datainicial.getTime()), new java.sql.Date(datafinal.getTime()));
 		} catch (Exception e) {
-			MensagemPainelUtil.Erro("Erro ao Buscar Relatórios!! " + e.getMessage());
+			MensagemPainelUtil.Erro("Erro ao Buscar Relatorios!! " + e.getMessage());
 			return null;
 		}
 	}
